@@ -1,15 +1,18 @@
 from twisted.internet.protocol import Protocol, ReconnectingClientFactory
 from twisted.internet import reactor
 
-TEST_DATA = []
+import time
 
 SERVER_HOST = "localhost"
 SERVER_PORT = 8123
 
 class TestModule(Protocol):
   def connectionMade(self):
-    # TODO: start sending a bunch of dummy data across the wire
-    self.transport.write("12345") # Fake serial number
+    self.transport.write("Serial Number: 12345\n") # Fake serial number
+
+    while 1:
+      self.transport.write("30\n")
+      time.sleep(1)
 
 class TestModuleFactory(ReconnectingClientFactory):
   def buildProtocol(self, addr):

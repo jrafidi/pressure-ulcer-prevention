@@ -7,6 +7,7 @@ class Model():
     if self.attributes[attr] != value:
       self.attributes[attr] = value
       self.trigger("change", attr)
+      self.trigger("change:" + attr, attr)
 
   def get(self, attr):
     return self.attributes[attr]
