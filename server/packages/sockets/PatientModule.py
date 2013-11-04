@@ -12,6 +12,8 @@ class PatientModuleReceiver(LineReceiver):
     self.model = ModuleModel(id)
     self.session.moduleModels[id] = self.model
 
+    self.sendMessage("OK")
+
     print id
 
     # TODO: bind model listeners

@@ -1,5 +1,6 @@
 from twisted.internet.protocol import Protocol, ReconnectingClientFactory
-from twisted.internet import reactor
+from twisted.internet.endpoints import TCP4ClientEndpoint
+from twisted.internet import reactor, task
 
 import time
 
@@ -9,11 +10,14 @@ SERVER_PORT = 8123
 class TestModule(Protocol):
   def connectionMade(self):
     self.sendMessage("Serial Number: 12345") # Fake serial number
-    # time.sleep(1)
 
-    # while 1:
-    #   self.sendMessage("30")
-    #   time.sleep(1)
+  def sendData(self):
+    self.sendMessage("30")
+
+  def dataReceived(self, line):
+    if line.strip() == "OK":
+      self.lc = task.LoopingCall(self.sendData)
+      self.lc.start(1)      
 
   def sendMessage(self, message):
     print message
@@ -32,5 +36,6 @@ class TestModuleFactory(ReconnectingClientFactory):
                                                      reason)
 
 if __name__ == '__main__':
-  reactor.connectTCP(SERVER_HOST, SERVER_PORT, TestModuleFactory())
+  point = TCP4ClientEndpoint(reactor, SERVER_HOST, SERVER_PORT)
+  d = point.connect(TestModuleFactory())
   reactor.run()
