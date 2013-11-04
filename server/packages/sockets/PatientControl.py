@@ -1,15 +1,16 @@
 from autobahn.websocket import WebSocketServerProtocol, \
                                 WebSocketServerFactory
 
+import json
+
 class PatientControlProtocol(WebSocketServerProtocol):
   def onOpen(self):
     self.factory.register(self)
-    # TODO: send initial state message to web UI
-    pass
+    self.sendMessage(self.factory.getState())
 
   def onMessage(self, msg, binary):
     # TODO: handle patient setting from web UI
-    pass
+    print msg
 
   def connectionLost(self, reason):
     WebSocketServerProtocol.connectionLost(self, reason)
@@ -21,15 +22,19 @@ class PatientControlSocketFactory(WebSocketServerFactory):
     self.clients = []
     self.session = session
 
-    # TODO: listen to session changes
+    self.session.moduleIdList.on("change", self.sessionChange)
+    self.session.bindAllModules("change:angle", self.updateData)
+
+  def updateData(self, model, attr):
+    message = "{\"" + model.get("id") + "\":" + str(model.get(attr)) + "}"
+    self.broadcast(message)
 
   def sessionChange(self, model, attr):
-    # TODO: broadcast changes to the session
-    pass
+    self.broadcast(self.getState())
 
-  def dataUpdate(self, model, attr):
-    # TODO: send up real-time data for the connected modules
-    pass
+  def getState(self):
+    state = json.dumps(self.session.moduleModels, default=lambda o: o.__dict__)
+    return state
 
   def register(self, client):
     if not client in self.clients:

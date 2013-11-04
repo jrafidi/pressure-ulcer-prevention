@@ -10,27 +10,25 @@ class PatientModuleReceiver(LineReceiver):
   def registerModule(self, id):
     self.id = id
     self.model = ModuleModel(id)
-    self.session.moduleModels[id] = self.model
+    self.session.addModule(self.model)
 
+    self.model.on("change:sleep_interval_ms", self.updateState)
+    self.model.on("change:sit_interval_ms", self.updateState)
+
+    # Tell module to start sending data
     self.sendMessage("OK")
 
-    print id
-
-    # TODO: bind model listeners
-
   def updateState(self, model, attr):
-    # TODO: update the timing setting for this module
-    pass
+    self.sendMessage("SETTING: " + attr + ":" + model.get(attr))
 
   def connectionLost(self, reason):
-    # TODO: update the session to note this module's disconnection
-    pass
+    self.session.removeModule(self.id)
 
   def dataReceived(self, line):
     if "Serial Number" in line:
       self.registerModule(line.split(':')[1].strip())
-
-    # TODO: update model based on new data
+    else:
+      self.model.set("angle", float(line.strip()))
 
   def sendMessage(self, message):
     self.transport.write(message + '\n')

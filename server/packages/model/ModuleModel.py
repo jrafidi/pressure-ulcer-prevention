@@ -7,7 +7,8 @@ class ModuleModel(Model):
       "id": id,
       "angle": 0,
       "sleep_interval_ms": 7200000,
-      "sit_interval_ms": 900000
+      "sit_interval_ms": 900000,
+      "name": id,
     }
 
     Model.__init__(self, data)
