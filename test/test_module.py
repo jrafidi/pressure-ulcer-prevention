@@ -8,11 +8,16 @@ SERVER_PORT = 8123
 
 class TestModule(Protocol):
   def connectionMade(self):
-    self.transport.write("Serial Number: 12345\n") # Fake serial number
+    self.sendMessage("Serial Number: 12345") # Fake serial number
+    # time.sleep(1)
 
-    while 1:
-      self.transport.write("30\n")
-      time.sleep(1)
+    # while 1:
+    #   self.sendMessage("30")
+    #   time.sleep(1)
+
+  def sendMessage(self, message):
+    print message
+    self.transport.write(message + '\n')
 
 class TestModuleFactory(ReconnectingClientFactory):
   def buildProtocol(self, addr):

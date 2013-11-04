@@ -4,10 +4,10 @@ from twisted.web.static import File
 
 from autobahn.websocket import listenWS
 
-from sockets.PatientControl import *
-from sockets.PatientModule import *
+from packages.sockets.PatientControl import *
+from packages.sockets.PatientModule import *
 
-from model.Session import *
+from packages.model.Session import *
 
 if __name__ == '__main__':
   # Create the session

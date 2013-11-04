@@ -1,15 +1,18 @@
 from twisted.internet.protocol import Factory
 from twisted.protocols.basic import LineReceiver
 
-from . import *
+from ..model.ModuleModel import ModuleModel
 
 class PatientModuleReceiver(LineReceiver):
   def __init__(self, session):
     self.session = session
 
   def registerModule(self, id):
+    self.id = id
     self.model = ModuleModel(id)
     self.session.moduleModels[id] = self.model
+
+    print id
 
     # TODO: bind model listeners
 
@@ -21,9 +24,9 @@ class PatientModuleReceiver(LineReceiver):
     # TODO: update the session to note this module's disconnection
     pass
 
-  def lineReceived(self, line):
-    if line.indexOf("Serial Number") > 0:
-      self.registerModule(line.split(':')[1])
+  def dataReceived(self, line):
+    if "Serial Number" in line:
+      self.registerModule(line.split(':')[1].strip())
 
     # TODO: update model based on new data
 

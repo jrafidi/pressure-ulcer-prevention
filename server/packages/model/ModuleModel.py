@@ -1,3 +1,5 @@
+from Model import *
+
 class ModuleModel(Model):
   def __init__(self, id):
     # Model defaults
