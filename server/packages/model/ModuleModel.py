@@ -9,6 +9,7 @@ class ModuleModel(Model):
       "sleep_interval_ms": 7200000,
       "sit_interval_ms": 900000,
       "name": id,
+      "notes": ""
     }
 
     Model.__init__(self, data)
