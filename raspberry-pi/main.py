@@ -2,11 +2,10 @@ from twisted.internet.endpoints import TCP4ClientEndpoint
 from twisted.internet.serialport import SerialPort
 from twisted.internet import reactor
 
-from socket_connection import *
-from serial_connection import *
+from connections import *
 from state import *
 
-SERVER_HOST = 'localhost'
+SERVER_HOST = '18.238.7.62'
 SERVER_PORT = 7123
 MODULE_ID = 1
 

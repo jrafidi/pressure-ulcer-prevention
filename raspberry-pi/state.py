@@ -1,3 +1,4 @@
+import main
 import time
 
 ANGLE_DEVIATION = 5
@@ -27,13 +28,13 @@ class ModuleStateController():
     self.socket.updateAngle(angle)
 
     angleInRange = angle < self.startAngle + ANGLE_DEVIATION or angle > self.startAngle - ANGLE_DEVIATION
-    stabilizeTimeElapsed = time.time()*1000 - self.startTime > MIN_FOR_TURN * 60 * 1000
+    stabilizeTimeElapsed = (time.time()*1000 - self.startTime) > MIN_FOR_TURN * 60 * 1000
 
     if (not self.stabilized) and stabilizeTimeElapsed:
       self.stabilized = True
       self.late = False
       self.startAngle = angle
-      self.startTime = time.time()*1000
+      self.startTime = time.time()*1000 + MIN_FOR_TURN * 60 * 1000
 
     if self.stabilized and angleInRange:
       delayTime = self.sleepIntervalMs
@@ -49,12 +50,12 @@ class ModuleStateController():
 
   def logTurn(self):
     turnData = {
-      deviceId: MODULE_ID
-      angle: self.startAngle,
-      sleeping: self.sleeping,
-      startTime: self.startTime,
-      endTime: time.time() * 1000
-      late: self.late
+      'deviceId': main.MODULE_ID,
+      'angle': self.startAngle,
+      'sleeping': self.sleeping,
+      'startTime': self.startTime,
+      'endTime': time.time() * 1000,
+      'late': self.late
     }
 
     self.socket.logTurn(turnData)

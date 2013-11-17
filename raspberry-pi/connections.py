@@ -2,23 +2,29 @@ from twisted.internet.protocol import Protocol, ReconnectingClientFactory
 from twisted.internet.serialport import SerialPort
 from twisted.internet.endpoints import TCP4ClientEndpoint
 from twisted.internet import task
+import main
 import accel_processing as accel
 import json
+import time
 
 class ModuleServerSocket(Protocol):
   def __init__(self):
     self.serverReady = False
 
   def connectionMade(self):
-    self.sendMessage("SERIAL_NUMBER:" + str(MODULE_ID))
+    print 'successful connection to server'
+    time.sleep(1)
+    self.transport.write("SERIAL_NUMBER:" + str(main.MODULE_ID) + '\n')
 
   def dataReceived(self, line):
+    print line
     if "OK" in line:
       self.serverReady = True
       return
 
     if "ALL_SETTINGS:" in line:
       # TODO: update state with all settings
+      return
 
     if "SETTING:" in line:
       bits = line.strip().split(":")
@@ -66,12 +72,19 @@ class SerialClient(Protocol):
 
   def dataReceived(self, data):
     # Hacky hack hack
-    line = self.lastData + data
-    if len(line.strip()) != 23:
+    line = (self.lastData + data).strip()
+    if len(line) == 0:
       self.lastData = line
-    else:
-      vals = line.strip().split(' ')
+      return
+
+    if line[0] == '[' and line[len(line) - 1] == ']' and len(line) == 25:
+      line = line.replace('[', '').replace(']', '')
+      vals = line.strip().split(',')
       self.lastData = ''
+
       angle = accel.calculateAngle(vals)
       sleeping = accel.calculateSleeping(vals)
       self.stateController.updateState(angle, sleeping)
+    else:
+      bits = line.strip().split('[')
+      self.lastData = '[' + bits[len(bits) - 1]
