@@ -9,20 +9,24 @@ from packages.sockets.PatientModule import *
 
 from packages.model.Session import *
 
+WEBSOCKET_PORT = 8000
+SOCKET_PORT = 7123
+WEB_PORT = 81
+
 if __name__ == '__main__':
   # Create the session
   session = Session()
 
   # Setup websocket protocol for patient control
-  factory = PatientControlSocketFactory("ws://localhost:9000", session, debug = False)
+  factory = PatientControlSocketFactory("ws://localhost:" + str(WEBSOCKET_PORT), session, debug = False)
   factory.protocol = PatientControlProtocol
   listenWS(factory)
 
   # Setup socket registration for patient modules
-  reactor.listenTCP(8123, PatientModuleSocketFactory(session))
+  reactor.listenTCP(SOCKET_PORT, PatientModuleSocketFactory(session))
 
   # Setup static html serving
   resource = File('../interface')
   staticServerFactory = Site(resource)
-  reactor.listenTCP(80, staticServerFactory)
+  reactor.listenTCP(WEB_PORT, staticServerFactory)
   reactor.run()

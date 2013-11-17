@@ -1,7 +1,7 @@
 do ->
   class com.pup.PatientModel extends Backbone.Model
     defaults: =>
-      id: null
+      deviceId: null
       name: ''
       notes: ''
 
@@ -9,4 +9,4 @@ do ->
       sit_interval_ms: 900000
 
       angle: 0
-      past_turns: []
+      turns: []

@@ -15,6 +15,8 @@ class PatientModuleReceiver(LineReceiver):
     self.model.on("change:sleep_interval_ms", self.updateState)
     self.model.on("change:sit_interval_ms", self.updateState)
 
+    # TODO: look in DB for previous settings for this module and set
+
     # Tell module to start sending data
     self.sendMessage("OK")
 
@@ -25,10 +27,11 @@ class PatientModuleReceiver(LineReceiver):
     self.session.removeModule(self.id)
 
   def dataReceived(self, line):
-    if "Serial Number" in line:
+    if "SERIAL_NUMBER" in line:
       self.registerModule(line.split(':')[1].strip())
-    else:
-      self.model.set("angle", float(line.strip()))
+    elif "ANGLE" in line:
+      angle = float(line.split(':')[1].strip())
+      self.model.set("angle", angle)
 
   def sendMessage(self, message):
     self.transport.write(message + '\n')

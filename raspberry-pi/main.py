@@ -4,6 +4,7 @@ from twisted.internet import reactor
 
 from socket_connection import *
 from serial_connection import *
+from state import *
 
 SERVER_HOST = 'localhost'
 SERVER_PORT = 7123
@@ -14,8 +15,13 @@ SERIAL_PORT = '/dev/ttyACM1'
 SERIAL_BAUD = '9600'
 
 if __name__ == '__main__':
-    socketFactory = ModuleFactory()
-    serialClient = SerialClient(socketFactory)
+    stateController = ModuleStateController()
+    socketFactory = ModuleFactory(stateController)
+    serialClient = SerialClient(stateController)
+
+    # Hacky to have model and socket pointed at each other.
+    # Better done using Model and triggering, but lazy right now.
+    stateController.setSocketFactory(socketFactory)
 
     point = TCP4ClientEndpoint(reactor, SERVER_HOST, SERVER_PORT)
     d = point.connect(socketFactory)

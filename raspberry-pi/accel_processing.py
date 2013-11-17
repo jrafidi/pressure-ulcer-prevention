@@ -96,3 +96,7 @@ def calculateAngle(vals):
     else:
         avg = (ALPHA) * theta + (1.0 - ALPHA) * avg
     return avg
+
+def calculateSleeping(vals):
+    # TODO
+    return True
