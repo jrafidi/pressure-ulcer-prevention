@@ -27,6 +27,7 @@ class PatientModuleReceiver(LineReceiver):
     self.session.removeModule(self.id)
 
   def dataReceived(self, line):
+    print line
     if "SERIAL_NUMBER" in line:
       self.registerModule(line.split(':')[1].strip())
     elif "ANGLE" in line:

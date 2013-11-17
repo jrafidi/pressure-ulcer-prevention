@@ -14,7 +14,7 @@ class Session():
       module.on(event, callback)
 
   def addModule(self, module):
-    id = module.get("id")
+    id = module.get("deviceId")
     self.moduleModels[id] = module
 
     idList = list(self.moduleIdList.get("ids"))

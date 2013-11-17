@@ -26,7 +26,7 @@ class PatientControlSocketFactory(WebSocketServerFactory):
     self.session.bindAllModules("change:angle", self.updateData)
 
   def updateData(self, model, attr):
-    message = "{\"" + model.get("id") + "\":" + str(model.get(attr)) + "}"
+    message = "{\"" + model.get("deviceId") + "\":" + str(model.get(attr)) + "}"
     self.broadcast(message)
 
   def sessionChange(self, model, attr):
