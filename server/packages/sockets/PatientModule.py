@@ -27,12 +27,14 @@ class PatientModuleReceiver(LineReceiver):
     self.session.removeModule(self.id)
 
   def dataReceived(self, line):
-    print line
-    if "SERIAL_NUMBER" in line:
-      self.registerModule(line.split(':')[1].strip())
-    elif "ANGLE" in line:
-      angle = float(line.split(':')[1].strip())
-      self.model.set("angle", angle)
+    lines = line.strip().split('\n')
+    print lines
+    for l in lines:
+      if "SERIAL_NUMBER:" in l:
+        self.registerModule(l.split(':')[1].strip())
+      elif "ANGLE:" in l:
+        angle = float(l.split(':')[1].strip())
+        self.model.set("angle", angle)
 
   def sendMessage(self, message):
     self.transport.write(message + '\n')
