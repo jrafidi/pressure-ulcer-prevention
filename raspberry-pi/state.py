@@ -4,6 +4,8 @@ import time
 ANGLE_DEVIATION = 5
 MIN_FOR_TURN = 2
 
+BUFFER_SIZE = MIN_FOR_TURN * 60
+
 DEF_SLEEP_INTERVAL = 7200000
 DEF_SIT_INTERVAL = 900000
 
@@ -13,8 +15,9 @@ class ModuleStateController():
     self.sleeping = True
     self.stabilized = False
     self.late = False
-    self.startAngle = 0
+    self.angleBuffer = [1000] * BUFFER_SIZE
     self.startTime = time.time() * 1000
+    self.lastTurn = None
 
     # Setting vars
     self.sleepIntervalMs = DEF_SLEEP_INTERVAL
@@ -25,41 +28,47 @@ class ModuleStateController():
 
   def updateState(self, angle, sleeping):
     self.sleeping = sleeping
+    self.angleBuffer.pop(0)
+    self.angleBuffer.append(angle)
+
     self.socket.updateAngle(angle)
 
-    angleInRange = angle < self.startAngle + ANGLE_DEVIATION or angle > self.startAngle - ANGLE_DEVIATION
-    stabilizeTimeElapsed = (time.time()*1000 - self.startTime) > MIN_FOR_TURN * 60 * 1000
+    newStabilized = abs(min(self.angleBuffer) - max(self.angleBuffer)) < 2*ANGLE_DEVIATION
 
-    if (not self.stabilized) and stabilizeTimeElapsed:
-      self.stabilized = True
-      self.late = False
-      self.startAngle = angle
-      self.startTime = time.time()*1000 + MIN_FOR_TURN * 60 * 1000
+    if not self.stabilized:
+      if newStabilized:
+        print "stabilized!"
+        self.stabilized = True
+        self.startTime = time.time() * 1000 - MIN_FOR_TURN * 60 * 1000
+        self.logLastTurn()
+    else:
+      if newStabilized:
+        delayTime = self.sleepIntervalMs
+        if not self.sleeping:
+          delayTime = self.sitIntervalMs
+        if time.time() * 1000 - self.startTime > delayTime:
+          self.late = True
+          fireAlarm()
+      else:
+        self.saveLastTurn()
+        self.stabilized = False
+        self.late = False
 
-    if self.stabilized and angleInRange:
-      delayTime = self.sleepIntervalMs
-      if not self.sleeping:
-        delayTime = self.sitIntervalMs
-      if time.time() * 1000 - self.startTime > delayTime:
-        self.late = True
-        fireAlarm()
+  def logLastTurn(self):
+    if self.lastTurn != None:
+      self.socket.logTurn(self.lastTurn)
 
-    if self.stabilized and (not angleInRange):
-      self.stabilized = False
-      self.logTurn()
-
-  def logTurn(self):
-    turnData = {
+  def saveLastTurn(self):
+    self.lastTurn = {
       'deviceId': main.MODULE_ID,
-      'angle': self.startAngle,
+      'angle': self.angleBuffer[0],
       'sleeping': self.sleeping,
       'startTime': self.startTime,
       'endTime': time.time() * 1000,
       'late': self.late
     }
 
-    self.socket.logTurn(turnData)
-
   def fireAlarm(self):
     # TODO
+    print "ALARM!"
     pass
