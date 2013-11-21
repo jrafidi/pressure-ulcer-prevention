@@ -13,11 +13,17 @@ class ModuleServerSocket(Protocol):
 
   def connectionMade(self):
     print 'successful connection to server'
+
     time.sleep(1)
-    self.transport.write("SERIAL_NUMBER:" + str(main.MODULE_ID) + '\n')
+    data = {
+      'type': 'serial_number',
+      'serial_number': main.MODULE_ID
+    }
+
+    # Have to use transport.write here due to server ready flag
+    self.transport.write(json.dumps(data) + '\n')
 
   def dataReceived(self, line):
-    print line
     if "OK" in line:
       self.serverReady = True
       return
@@ -41,10 +47,16 @@ class ModuleFactory(ReconnectingClientFactory):
     self.stateController = stateController
   
   def logTurn(self, turnData):
-    self.broadcastMessage("TURN:" + json.dumps(turnData))
+    turnData['type'] = 'turn'
+    self.broadcastMessage(json.dumps(turnData))
 
-  def updateAngle(self, angle):
-    self.broadcastMessage("ANGLE:" + str(angle))
+  def updateState(self, angle, sleeping):
+    data = {
+      'type': 'update',
+      'angle': angle,
+      'sleeping': sleeping
+    }
+    self.broadcastMessage(json.dumps(data))
 
   def buildProtocol(self, addr):
     self.resetDelay()
