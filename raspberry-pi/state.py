@@ -71,7 +71,7 @@ class ModuleStateController():
           delayTime = self.sitIntervalMs
         if time.time() * 1000 - self.startTime > delayTime:
           self.late = True
-          fireAlarm()
+          self.fireAlarm()
       # If we are not stable anymore
       else:
         # Save off this turn and clear stable/late flags
