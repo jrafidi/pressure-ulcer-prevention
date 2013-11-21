@@ -1,6 +1,8 @@
 (function() {
   var _this = this;
 
+  com.pup.WEBSOCKET_PORT = '8000';
+
   $('document').ready((function() {
     var mainView, patientController, patientModels;
     patientModels = new Backbone.Collection();

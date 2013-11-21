@@ -4,6 +4,8 @@
     <title>Patient Control Interface</title>
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
 
+    <link type="text/css" rel="stylesheet" href="css/compiled.css"/>
+
     <!-- LIBRARY FILES -->
     <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.2.1/moment.min.js"></script>
@@ -12,8 +14,23 @@
     <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js"></script>
 
     <script src="js/init.js"></script>
-    <script src="js/test_controller.js"></script>
+
+    <script src="js/controllers/PatientController.js"></script>
+    <script src="js/model/PatientModel.js"></script>
+
+    <script src="js/views/PatientListView.js"></script>
+    <script src="js/views/MainView.js"></script>
+
+    <script src="js/endpoint.js"></script>
+
   </head>
+
+  <script id="patient-item-template" type="text/x-handlebars-template">
+    <div class="patient-item">
+      <div class="patient-name"><strong>Name:</strong> {{name}}</div>
+      <div class="patient-device-id"><strong>Device:</strong> {{deviceId}}</div>
+    </div>
+  </script>
 
   <body>
     Under construction

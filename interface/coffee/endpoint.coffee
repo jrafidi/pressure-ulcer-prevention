@@ -1,3 +1,5 @@
+com.pup.WEBSOCKET_PORT = '8000'
+
 $('document').ready ( =>
   # Create the data model (collection of patients)
   patientModels = new Backbone.Collection()

@@ -21,8 +21,10 @@ class Model():
       for listener in self.listeners[event]:
         listener(self, data)
 
-  def on(self, event, callback):
-    if event in self.listeners:
-      self.listeners[event].append(callback)
-    else:
-      self.listeners[event] = [callback]
+  def on(self, events, callback):
+    eventItems = events.split(' ')
+    for event in eventItems:
+      if event in self.listeners:
+        self.listeners[event].append(callback)
+      else:
+        self.listeners[event] = [callback]

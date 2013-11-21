@@ -1,0 +1,24 @@
+@list-background-color: #EEE;
+
+.patient-list {
+  width: 300px;
+  height: 100%;
+  overflow: auto;
+  border-right: 1px solid #333;
+  background-color: @list-background-color;
+}
+
+.patient-item {
+  border-bottom: 1px solid #333;
+  padding: 10px;
+  cursor: pointer;
+  background-color: @list-background-color;
+
+  &:hover {
+    background-color: darken(@list-background-color, 8%);
+  }
+
+  &:active {
+    background-color: darken(@list-background-color, 15%);
+  }
+}

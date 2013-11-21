@@ -9,4 +9,7 @@ do ->
       sit_interval_ms: 900000
 
       angle: 0
+      sleeping: true
       turns: []
+
+      selected: false

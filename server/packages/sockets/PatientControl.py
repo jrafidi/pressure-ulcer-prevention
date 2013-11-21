@@ -23,18 +23,25 @@ class PatientControlSocketFactory(WebSocketServerFactory):
     self.session = session
 
     self.session.moduleIdList.on("change", self.sessionChange)
-    self.session.bindAllModules("change:angle", self.updateData)
+    self.session.bindAllModules("change:angle change:sleeping", self.updateData)
 
   def updateData(self, model, attr):
-    message = "{\"" + model.get("deviceId") + "\":" + str(model.get(attr)) + "}"
-    self.broadcast(message)
+    message = {
+      'type': 'update',
+      'deviceId': model.get('deviceId'),
+      'angle': model.get('angle'),
+      'sleeping': model.get('sleeping')
+    }
+    self.broadcast(json.dumps(message))
 
   def sessionChange(self, model, attr):
     self.broadcast(self.getState())
 
   def getState(self):
     state = json.dumps(self.session.moduleModels, default=lambda o: o.__dict__)
-    return state
+    stateDict = json.loads(state)
+    stateDict['type'] = 'state'
+    return json.dumps(stateDict)
 
   def register(self, client):
     if not client in self.clients:

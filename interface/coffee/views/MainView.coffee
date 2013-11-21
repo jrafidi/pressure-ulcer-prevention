@@ -4,3 +4,9 @@ do ->
       # no-op
 
     render: =>
+      @$el.empty()
+      @listView = new com.pup.PatientListView
+        model: @model
+      @listView.render()
+
+      @$el.append(@listView.$el)

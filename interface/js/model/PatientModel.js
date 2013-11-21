@@ -16,13 +16,15 @@
 
       PatientModel.prototype.defaults = function() {
         return {
-          id: null,
+          deviceId: null,
           name: '',
           notes: '',
           sleep_interval_ms: 7200000,
           sit_interval_ms: 900000,
           angle: 0,
-          past_turns: []
+          sleeping: true,
+          turns: [],
+          selected: false
         };
       };
 

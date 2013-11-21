@@ -17,7 +17,14 @@
 
       MainView.prototype.initialize = function() {};
 
-      MainView.prototype.render = function() {};
+      MainView.prototype.render = function() {
+        this.$el.empty();
+        this.listView = new com.pup.PatientListView({
+          model: this.model
+        });
+        this.listView.render();
+        return this.$el.append(this.listView.$el);
+      };
 
       return MainView;
 
