@@ -11,5 +11,3 @@ do ->
       angle: 0
       sleeping: true
       turns: []
-
-      selected: false

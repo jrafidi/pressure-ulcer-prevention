@@ -1,7 +1,9 @@
+@import "main.less";
+
 @list-background-color: #EEE;
 
 .patient-list {
-  width: 300px;
+  width: @list-width;
   height: 100%;
   overflow: auto;
   border-right: 1px solid #333;
@@ -13,6 +15,10 @@
   padding: 10px;
   cursor: pointer;
   background-color: @list-background-color;
+
+  &.selected {
+    background-color: darken(@list-background-color, 8%);
+  }
 
   &:hover {
     background-color: darken(@list-background-color, 8%);

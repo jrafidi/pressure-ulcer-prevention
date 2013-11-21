@@ -15,15 +15,24 @@
         return _ref;
       }
 
-      MainView.prototype.initialize = function() {};
+      MainView.prototype.initialize = function(options) {
+        return this.selectionModel = options.selectionModel;
+      };
 
       MainView.prototype.render = function() {
         this.$el.empty();
         this.listView = new com.pup.PatientListView({
-          model: this.model
+          model: this.model,
+          selectionModel: this.selectionModel
         });
         this.listView.render();
-        return this.$el.append(this.listView.$el);
+        this.contentView = new com.pup.PatientContentView({
+          model: this.model,
+          selectionModel: this.selectionModel
+        });
+        this.contentView.render();
+        this.$el.append(this.listView.$el);
+        return this.$el.append(this.contentView.$el);
       };
 
       return MainView;

@@ -9,6 +9,7 @@
         this._initializeSocket = __bind(this._initializeSocket, this);
         $.extend(this, Backbone.Events);
         this.model = options.model;
+        this.selectionModel = options.selectionModel;
         this._initializeSocket();
       }
 
@@ -37,6 +38,9 @@
             m = _ref[_i];
             if (!_.contains(ids, m.get('deviceId').toString())) {
               this.model.remove(m);
+              if (this.selectionModel.get('selected') === m.cid) {
+                this.selectionModel.set('selected', null);
+              }
             }
           }
           return console.log(this.model.models);

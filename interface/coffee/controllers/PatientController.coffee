@@ -4,6 +4,7 @@ do ->
       $.extend @, Backbone.Events
 
       @model = options.model
+      @selectionModel = options.selectionModel
 
       @_initializeSocket()
 
@@ -25,6 +26,9 @@ do ->
         for m in @model.models
           if !_.contains(ids, m.get('deviceId').toString())
             @model.remove(m)
+
+            if @selectionModel.get('selected') == m.cid
+              @selectionModel.set('selected', null)
 
         console.log @model.models
 

@@ -19,6 +19,7 @@
     <script src="js/model/PatientModel.js"></script>
 
     <script src="js/views/PatientListView.js"></script>
+    <script src="js/views/PatientContentView.js"></script>
     <script src="js/views/MainView.js"></script>
 
     <script src="js/endpoint.js"></script>
@@ -26,9 +27,32 @@
   </head>
 
   <script id="patient-item-template" type="text/x-handlebars-template">
-    <div class="patient-item">
-      <div class="patient-name"><strong>Name:</strong> {{name}}</div>
-      <div class="patient-device-id"><strong>Device:</strong> {{deviceId}}</div>
+    <div class="patient-name"><strong>Name:</strong> {{name}}</div>
+    <div class="patient-device-id"><strong>Device:</strong> {{deviceId}}</div>
+  </script>
+
+  <script id="patient-content-template" type="text/x-handlebars-template">
+    <div class="patient-content-top">
+      <div class="patient-info"/>
+      <div class="patient-foo"/>
+    </div>
+    <div class="patient-content-bottom">
+      <div class="patient-turn-list"/>
+      <div class="patient-turn-angle"/>
+    </div>
+  </script>
+
+  <script id="patient-info-template" type="text/x-handlebars-template">
+    <div class="labels">
+      <div class="label name-label">Name:</div>
+      <div class="label sleep-label">Sleep Time:</div>
+      <div class="label sit-label">Sit Time:</div>
+    </div>
+    <div class="inputs">
+      <input type="text" val="{{name}}" class="name-input"/>
+      <input type="text" val="temp" class="sleep-input"/>
+      <input type="text" val="temp" class="sit-input"/>
+      <div class="save-changes">Save Changes</div>
     </div>
   </script>
 
