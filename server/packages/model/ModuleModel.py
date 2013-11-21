@@ -6,6 +6,7 @@ class ModuleModel(Model):
     data = {
       "deviceId": id,
       "angle": 0,
+      "sleeping": True,
       "sleep_interval_ms": 7200000,
       "sit_interval_ms": 900000,
       "name": id,

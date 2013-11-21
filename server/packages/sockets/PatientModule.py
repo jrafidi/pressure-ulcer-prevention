@@ -3,6 +3,8 @@ from twisted.protocols.basic import LineReceiver
 
 from ..model.ModuleModel import ModuleModel
 
+import json
+
 class PatientModuleReceiver(LineReceiver):
   def __init__(self, session):
     self.session = session
@@ -28,13 +30,17 @@ class PatientModuleReceiver(LineReceiver):
 
   def dataReceived(self, line):
     lines = line.strip().split('\n')
-    print lines
     for l in lines:
-      if "SERIAL_NUMBER:" in l:
-        self.registerModule(l.split(':')[1].strip())
-      elif "ANGLE:" in l:
-        angle = float(l.split(':')[1].strip())
-        self.model.set("angle", angle)
+      data = json.loads(l)
+      if data['type'] == 'serial_number':
+        self.registerModule(data['serial_number'])
+      elif data['type'] == 'update':
+        self.model.set('angle', data['angle'])
+        self.model.set('sleeping', data['sleeping'])
+      elif data['type'] == 'turn':
+        turns = self.model.get('turns')
+        turns.append(data)
+        self.model.set('turns', turns)
 
   def sendMessage(self, message):
     self.transport.write(message + '\n')

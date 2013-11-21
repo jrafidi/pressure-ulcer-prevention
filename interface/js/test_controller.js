@@ -6,7 +6,7 @@ window.onload = function () {
     return;
   }
 
-  socket = new WebSocket("ws://localhost:9000/");
+  socket = new WebSocket("ws://localhost:8000/");
 
   // Receive data from the server
   socket.onmessage = function (evt) {
