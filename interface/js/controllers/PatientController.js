@@ -5,12 +5,14 @@
     return com.pup.PatientController = (function() {
       function PatientController(options) {
         this._sendMessage = __bind(this._sendMessage, this);
+        this._updateSettings = __bind(this._updateSettings, this);
         this._parseMessage = __bind(this._parseMessage, this);
         this._initializeSocket = __bind(this._initializeSocket, this);
         $.extend(this, Backbone.Events);
         this.model = options.model;
         this.selectionModel = options.selectionModel;
         this._initializeSocket();
+        this.listenTo(this.model, 'change', this._updateSettings);
       }
 
       PatientController.prototype._initializeSocket = function() {
@@ -19,7 +21,7 @@
       };
 
       PatientController.prototype._parseMessage = function(message) {
-        var data, deviceId, ids, info, m, _i, _len, _ref;
+        var data, deviceId, ids, info, m, _i, _len, _ref, _results;
         data = JSON.parse(message.data);
         if (data.type === 'state') {
           delete data['type'];
@@ -34,17 +36,26 @@
             }
           }
           _ref = this.model.models;
+          _results = [];
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
             m = _ref[_i];
             if (!_.contains(ids, m.get('deviceId').toString())) {
               this.model.remove(m);
               if (this.selectionModel.get('selected') === m.cid) {
-                this.selectionModel.set('selected', null);
+                _results.push(this.selectionModel.set('selected', null));
+              } else {
+                _results.push(void 0);
               }
+            } else {
+              _results.push(void 0);
             }
           }
-          return console.log(this.model.models);
+          return _results;
         }
+      };
+
+      PatientController.prototype._updateSettings = function(patient) {
+        return this._sendMessage(patient.attributes);
       };
 
       PatientController.prototype._sendMessage = function(data) {

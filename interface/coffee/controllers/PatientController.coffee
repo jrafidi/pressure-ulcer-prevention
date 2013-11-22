@@ -8,6 +8,8 @@ do ->
 
       @_initializeSocket()
 
+      @listenTo @model, 'change', @_updateSettings
+
     _initializeSocket: =>
       @socket = new WebSocket("ws://localhost:#{com.pup.WEBSOCKET_PORT}/")
       @socket.onmessage = @_parseMessage
@@ -30,7 +32,8 @@ do ->
             if @selectionModel.get('selected') == m.cid
               @selectionModel.set('selected', null)
 
-        console.log @model.models
+    _updateSettings: (patient) =>
+      @_sendMessage(patient.attributes)
 
     _sendMessage: (data) =>
       msg = JSON.stringify(data)
