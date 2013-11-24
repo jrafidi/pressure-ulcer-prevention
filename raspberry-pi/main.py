@@ -5,7 +5,7 @@ from twisted.internet import reactor
 from connections import *
 from state import *
 
-SERVER_HOST = '18.238.6.222'
+SERVER_HOST = '18.238.7.62'
 SERVER_PORT = 7123
 MODULE_ID = 1
 

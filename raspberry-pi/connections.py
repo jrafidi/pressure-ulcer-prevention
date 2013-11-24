@@ -8,12 +8,12 @@ import json
 import time
 
 class ModuleServerSocket(Protocol):
-  def __init__(self):
+  def __init__(self, stateController):
     self.serverReady = False
+    self.stateController = stateController
 
   def connectionMade(self):
     print 'successful connection to server'
-
     time.sleep(1)
     data = {
       'type': 'serial_number',
@@ -28,14 +28,12 @@ class ModuleServerSocket(Protocol):
       self.serverReady = True
       return
 
-    if "ALL_SETTINGS:" in line:
-      # TODO: update state with all settings
-      return
-
     if "SETTING:" in line:
       bits = line.strip().split(":")
-      print bits[1].strip() + " set to " + bits[2].strip()
-      # TODO: update state
+      if 'sleep' in bits[1].strip():
+        self.stateController.sleepIntervalMs = int(bits[2].strip())
+      elif 'sit' in bits[1].strip():
+        self.stateController.sitIntervalMs = int(bits[2].strip())
 
   def sendMessage(self, message):
     if self.serverReady:
@@ -60,7 +58,7 @@ class ModuleFactory(ReconnectingClientFactory):
 
   def buildProtocol(self, addr):
     self.resetDelay()
-    module = ModuleServerSocket()
+    module = ModuleServerSocket(self.stateController)
     self.connections.append(module)
     return module
 

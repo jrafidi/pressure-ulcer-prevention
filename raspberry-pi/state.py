@@ -1,5 +1,9 @@
 import main
 import time
+import RPi.GPIO as GPIO
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(10, GPIO.OUT)
+GPIO.output(10, True)
 
 ANGLE_DEVIATION = 5
 MIN_FOR_TURN = 2
@@ -70,8 +74,11 @@ class ModuleStateController():
         if not self.sleeping:
           delayTime = self.sitIntervalMs
         if time.time() * 1000 - self.startTime > delayTime:
-          self.late = True
-          self.fireAlarm()
+          # If we already flagged as late, then no point in firing again
+          if self.late:
+            self.late = True
+            self.fireAlarm()
+
       # If we are not stable anymore
       else:
         # Save off this turn and clear stable/late flags
@@ -79,6 +86,7 @@ class ModuleStateController():
         self.saveLastTurn()
         self.stabilized = False
         self.late = False
+        self.unfireAlarm()
 
   def logLastTurn(self):
     if self.lastTurn != None:
@@ -95,6 +103,7 @@ class ModuleStateController():
     }
 
   def fireAlarm(self):
-    # TODO
-    print "ALARM!"
-    pass
+    GPIO.output(10, False)
+
+  def unfireAlarm(self):
+    GPIO.output(10, True)
