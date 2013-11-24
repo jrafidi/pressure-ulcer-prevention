@@ -75,7 +75,7 @@ class ModuleStateController():
           delayTime = self.sitIntervalMs
         if time.time() * 1000 - self.startTime > delayTime:
           # If we already flagged as late, then no point in firing again
-          if self.late:
+          if not self.late:
             self.late = True
             self.fireAlarm()
 
