@@ -20,6 +20,7 @@
 
     <script src="js/views/PatientListView.js"></script>
     <script src="js/views/PatientContentView.js"></script>
+    <script src="js/views/PatientInfoView.js"></script>
     <script src="js/views/MainView.js"></script>
 
     <script src="js/endpoint.js"></script>
@@ -32,28 +33,26 @@
   </script>
 
   <script id="patient-content-template" type="text/x-handlebars-template">
-    <div class="patient-content-top">
-      <div class="patient-info"/>
-      <div class="patient-foo"/>
-    </div>
-    <div class="patient-content-bottom">
-      <div class="patient-turn-list"/>
-      <div class="patient-turn-angle"/>
-    </div>
+    <div class="patient-content-top"/>
+    <div class="patient-content-bottom"/>
   </script>
 
   <script id="patient-info-template" type="text/x-handlebars-template">
-    <div class="labels">
-      <div class="label name-label">Name:</div>
-      <div class="label sleep-label">Sleep Time:</div>
-      <div class="label sit-label">Sit Time:</div>
+    <div class="patient-info-left">
+      <div class="patient-info-label">Patient Info</div>
+      <div class="labels">
+        <div class="label name-label">Patient Name:</div>
+        <div class="label sleep-label">Sleep Time (min):</div>
+        <div class="label sit-label">Sit Time (min):</div>
+      </div>
+      <div class="inputs">
+        <input type="text" value="{{name}}" class="name-input"/><br/>
+        <input type="text" value="{{sleepMin}}" class="sleep-input"/><br/>
+        <input type="text" value="{{sitMin}}" class="sit-input"/><br/>
+        <div class="save-changes">Save Changes</div>
+      </div>
     </div>
-    <div class="inputs">
-      <input type="text" val="{{name}}" class="name-input"/>
-      <input type="text" val="temp" class="sleep-input"/>
-      <input type="text" val="temp" class="sit-input"/>
-      <div class="save-changes">Save Changes</div>
-    </div>
+    <div class="patient-info-right"/>
   </script>
 
   <body>

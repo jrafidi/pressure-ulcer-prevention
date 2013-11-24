@@ -1,11 +1,58 @@
 @import "main.less";
 
+@save-changes-color: #3D8AFD;
+
 .patient-content {
   position: absolute;
   left: @list-width;
   right: 0px;
   top: 0px;
   bottom: 0px;
+
+  .patient-content-top {
+    height: 170px;
+    .patient-info-left {
+      float: left;
+      .patient-info-label {
+        padding: 5px;
+        font-size: 24px;
+      }
+
+      .labels {
+        float: left;
+        margin-left: 3px;
+
+        .label {
+          margin-bottom: 3px;
+          padding: 4px;
+        }
+      }
+
+      .inputs {
+        float: left;
+
+        input {
+          margin-bottom: 5px;
+          width: 200px;
+        }
+      }
+
+      .save-changes {
+        text-align: center;
+        background-color: @save-changes-color;
+        cursor: pointer;
+        padding: 4px;
+
+        &:hover {
+          background-color: darken(@save-changes-color, 8%);
+        }
+
+        &:active {
+          background-color: darken(@save-changes-color, 15%);
+        }
+      }
+    }
+  }
 
   .nothing {
     text-align: center;

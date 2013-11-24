@@ -23,11 +23,21 @@
       };
 
       PatientContentView.prototype.render = function() {
+        var cid, patient, source, template;
         this.$el.empty();
         if (this.selectionModel.get('selected') == null) {
           return this.$el.append($('<div class="nothing"/>').text('Select a patient on the left.'));
         } else {
-          return this.$el.append($('<div class="nothing"/>').text('Selected.'));
+          source = $('#patient-content-template').html();
+          template = Handlebars.compile(source);
+          this.$el.append(template({}));
+          cid = this.selectionModel.get('selected');
+          patient = this.model.get(cid);
+          this.infoView = new com.pup.PatientInfoView({
+            model: patient,
+            el: this.$('.patient-content-top')
+          });
+          return this.infoView.render();
         }
       };
 

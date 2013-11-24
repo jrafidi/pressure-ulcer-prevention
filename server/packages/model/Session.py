@@ -13,6 +13,9 @@ class Session():
     for id, module in self.moduleModels.iteritems():
       module.on(event, callback)
 
+  def getModule(self, deviceId):
+    return self.moduleModels[deviceId]
+
   def addModule(self, module):
     id = module.get("deviceId")
     self.moduleModels[id] = module

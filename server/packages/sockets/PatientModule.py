@@ -17,13 +17,14 @@ class PatientModuleReceiver(LineReceiver):
     self.model.on("change:sleep_interval_ms", self.updateState)
     self.model.on("change:sit_interval_ms", self.updateState)
 
-    # TODO: look in DB for previous settings for this module and set
+    # TODO: look in DB for previous settings for this module 
+    #       and set model appropriately
 
     # Tell module to start sending data
     self.sendMessage("OK")
 
   def updateState(self, model, attr):
-    self.sendMessage("SETTING: " + attr + ":" + model.get(attr))
+    self.sendMessage("SETTING: " + attr + ":" + str(model.get(attr)))
 
   def connectionLost(self, reason):
     self.session.removeModule(self.id)

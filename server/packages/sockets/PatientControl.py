@@ -9,8 +9,12 @@ class PatientControlProtocol(WebSocketServerProtocol):
     self.sendMessage(self.factory.getState())
 
   def onMessage(self, msg, binary):
-    # TODO: handle patient setting from web UI
-    print msg
+    data = json.loads(msg)
+    model = self.factory.session.getModule(data['deviceId'])
+
+    model.set('name', data['name'])
+    model.set('sleep_interval_ms', data['sleep_interval_ms'])
+    model.set('sit_interval_ms', data['sit_interval_ms'])
 
   def connectionLost(self, reason):
     WebSocketServerProtocol.connectionLost(self, reason)
