@@ -6,7 +6,7 @@ import time
 from random import randint
 
 SERVER_HOST = "localhost"
-SERVER_PORT = 8123
+SERVER_PORT = 7123
 DATA_CENTER = 30
 
 MODULE_ID = randint(0, 10000)
