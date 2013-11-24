@@ -9,7 +9,7 @@ class ModuleModel(Model):
       "sleeping": True,
       "sleep_interval_ms": 7200000,
       "sit_interval_ms": 900000,
-      "name": id,
+      "name": "New Patient",
       "notes": "",
       "turns": []
     }
