@@ -27,6 +27,7 @@ class PatientModuleReceiver(LineReceiver):
     self.sendMessage("SETTING: " + attr + ":" + str(model.get(attr)))
 
   def connectionLost(self, reason):
+    print reason
     self.session.removeModule(self.id)
 
   def dataReceived(self, line):

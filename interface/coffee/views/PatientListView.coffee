@@ -34,6 +34,8 @@ do ->
 
       if @selectionModel.get('selected') == @model.cid
         @$el.addClass('selected')
+      else
+        @$el.removeClass('selected')
 
     _selectModel: =>
       @selectionModel.set('selected', @model.cid)

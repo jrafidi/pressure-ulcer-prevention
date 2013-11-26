@@ -73,6 +73,8 @@
         this.$el.append(template(this.model.attributes));
         if (this.selectionModel.get('selected') === this.model.cid) {
           return this.$el.addClass('selected');
+        } else {
+          return this.$el.removeClass('selected');
         }
       };
 

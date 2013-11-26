@@ -11,7 +11,7 @@ do ->
       @listenTo @model, 'change', @_updateSettings
 
     _initializeSocket: =>
-      @socket = new WebSocket("ws://localhost:#{com.pup.WEBSOCKET_PORT}/")
+      @socket = new WebSocket("ws://#{com.pup.WEBSOCKET_URL}:#{com.pup.WEBSOCKET_PORT}/")
       @socket.onmessage = @_parseMessage
 
     _parseMessage: (message) =>
@@ -22,7 +22,7 @@ do ->
         ids = []
         for deviceId, info of data
           ids.push(deviceId)
-          if @model.where({'deviceId': deviceId}).length == 0
+          if @model.where({'deviceId': parseInt(deviceId)}).length == 0
             @model.add(new com.pup.PatientModel(info.attributes))
 
         for m in @model.models
@@ -31,6 +31,10 @@ do ->
 
             if @selectionModel.get('selected') == m.cid
               @selectionModel.set('selected', null)
+      else if data.type == 'update'
+        device = @model.where({'deviceId': data.deviceId})[0]
+        device.set('angle', data.angle)
+        device.set('sleeping', data.sleeping)
 
     _updateSettings: (patient) =>
       @_sendMessage(patient.attributes)
