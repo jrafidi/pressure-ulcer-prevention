@@ -16,9 +16,17 @@ do ->
       source = $('#patient-info-template').html()
       template = Handlebars.compile(source)
       @$el.append template(_.defaults({sleepMin: sleepMin, sitMin: sitMin}, @model.attributes))
-      @_renderAngle
+      @_renderAngle()
 
     _renderAngle: =>
+      angle = Math.round(@model.get('angle')) * -1
+      if angle > 0
+        dir = 'right'
+      else
+        dir = 'left'
+      @$('.rotating-box').css('-webkit-transform', "rotate(#{angle}deg)")
+      angle = Math.abs(angle)
+      @$('.status-text').text("Current: #{angle}\xB0 #{dir}")
 
     _updateModel: =>
       name = @$('.name-input').val()

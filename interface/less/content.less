@@ -10,7 +10,8 @@
   bottom: 0px;
 
   .patient-content-top {
-    height: 170px;
+    height: @content-top-height;
+
     .patient-info-left {
       float: left;
       .patient-info-label {
@@ -50,6 +51,28 @@
         &:active {
           background-color: darken(@save-changes-color, 15%);
         }
+      }
+    }
+
+    .patient-info-right {
+      text-align: center;
+      float: left;
+
+      .status-text {
+        margin-left: 100px;
+        padding-top: 5px;
+        font-size: 24px;
+      }
+
+      .rotating-box {
+        border: 3px solid black;
+        font-weight: bold;
+        margin-left: 120px;
+        margin-top: 40px;
+        width: 100px;
+        padding: 20px;
+        -webkit-transform: rotate(0deg);
+        border-radius: 500px;
       }
     }
   }

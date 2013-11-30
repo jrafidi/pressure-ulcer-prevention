@@ -1,3 +1,4 @@
+com.pup.WEBSOCKET_URL = window.location.origin.split('//')[1].split(':')[0]
 com.pup.WEBSOCKET_PORT = '8000'
 
 $('document').ready ( =>

@@ -16,12 +16,12 @@
       }
 
       PatientController.prototype._initializeSocket = function() {
-        this.socket = new WebSocket("ws://localhost:" + com.pup.WEBSOCKET_PORT + "/");
+        this.socket = new WebSocket("ws://" + com.pup.WEBSOCKET_URL + ":" + com.pup.WEBSOCKET_PORT + "/");
         return this.socket.onmessage = this._parseMessage;
       };
 
       PatientController.prototype._parseMessage = function(message) {
-        var data, deviceId, ids, info, m, _i, _len, _ref, _results;
+        var data, device, deviceId, ids, info, m, _i, _len, _ref, _results;
         data = JSON.parse(message.data);
         if (data.type === 'state') {
           delete data['type'];
@@ -30,7 +30,7 @@
             info = data[deviceId];
             ids.push(deviceId);
             if (this.model.where({
-              'deviceId': deviceId
+              'deviceId': parseInt(deviceId)
             }).length === 0) {
               this.model.add(new com.pup.PatientModel(info.attributes));
             }
@@ -51,6 +51,12 @@
             }
           }
           return _results;
+        } else if (data.type === 'update') {
+          device = this.model.where({
+            'deviceId': data.deviceId
+          })[0];
+          device.set('angle', data.angle);
+          return device.set('sleeping', data.sleeping);
         }
       };
 

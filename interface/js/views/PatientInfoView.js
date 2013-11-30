@@ -37,10 +37,21 @@
           sleepMin: sleepMin,
           sitMin: sitMin
         }, this.model.attributes)));
-        return this._renderAngle;
+        return this._renderAngle();
       };
 
-      PatientInfoView.prototype._renderAngle = function() {};
+      PatientInfoView.prototype._renderAngle = function() {
+        var angle, dir;
+        angle = Math.round(this.model.get('angle')) * -1;
+        if (angle > 0) {
+          dir = 'right';
+        } else {
+          dir = 'left';
+        }
+        this.$('.rotating-box').css('-webkit-transform', "rotate(" + angle + "deg)");
+        angle = Math.abs(angle);
+        return this.$('.status-text').text("Current: " + angle + "\xB0 " + dir);
+      };
 
       PatientInfoView.prototype._updateModel = function() {
         var name, sitMin, sitMs, sleepMin, sleepMs;
