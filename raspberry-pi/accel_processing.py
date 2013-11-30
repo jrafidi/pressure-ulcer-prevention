@@ -4,6 +4,8 @@ import math
 ACCEL_ZERO = 330
 ALPHA = 0.2
 
+SLEEP_AXIS = 1
+
 def frange(x, y, jump):
     while x < y:
         yield x
@@ -98,5 +100,8 @@ def calculateAngle(vals):
     return avg
 
 def calculateSleeping(vals):
-    # TODO
-    return True
+    val = int(vals[6 + SLEEP_AXIS]) - ACCEL_ZERO
+    if val < -40:
+        return False 
+    else:
+        return True
