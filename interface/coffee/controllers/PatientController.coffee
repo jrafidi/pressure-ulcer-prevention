@@ -35,6 +35,8 @@ do ->
         device = @model.where({'deviceId': data.deviceId})[0]
         device.set('angle', data.angle)
         device.set('sleeping', data.sleeping)
+      else if data.type == 'turn'
+        console.log data
 
     _updateSettings: (patient) =>
       @_sendMessage(patient.attributes)

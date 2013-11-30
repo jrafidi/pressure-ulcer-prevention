@@ -28,6 +28,7 @@ class PatientControlSocketFactory(WebSocketServerFactory):
 
     self.session.moduleIdList.on("change", self.sessionChange)
     self.session.bindAllModules("change:angle change:sleeping", self.updateData)
+    self.session.bindAllModules("newTurn", self.updateTurn)
 
   def updateData(self, model, attr):
     message = {
@@ -35,6 +36,14 @@ class PatientControlSocketFactory(WebSocketServerFactory):
       'deviceId': model.get('deviceId'),
       'angle': model.get('angle'),
       'sleeping': model.get('sleeping')
+    }
+    self.broadcast(json.dumps(message))
+
+  def updateTurn(self, model, turn):
+    message = {
+      'type': 'turn',
+      'deviceId': model.get('deviceId'),
+      'turn': turn
     }
     self.broadcast(json.dumps(message))
 

@@ -43,6 +43,7 @@ class PatientModuleReceiver(LineReceiver):
         turns = self.model.get('turns')
         turns.append(data)
         self.model.set('turns', turns)
+        self.model.trigger('newTurn', data)
 
   def sendMessage(self, message):
     self.transport.write(message + '\n')
