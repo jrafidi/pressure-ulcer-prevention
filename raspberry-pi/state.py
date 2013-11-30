@@ -60,7 +60,7 @@ class ModuleStateController():
 
         # If we have deviated away from the previous turn's angle,
         # log the turn and reset the start time for the next one
-        if min(self.angleBuffer) > self.lastTurn['angle'] and\
+        if min(self.angleBuffer) > self.lastTurn['angle'] or\
            max(self.angleBuffer) < self.lastTurn['angle']:
           self.startTime = time.time() * 1000 - MIN_FOR_TURN * 60 * 1000
           self.logLastTurn()

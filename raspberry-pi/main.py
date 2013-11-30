@@ -9,8 +9,8 @@ SERVER_HOST = '18.238.6.222'
 SERVER_PORT = 7123
 MODULE_ID = 1
 
-# TODO: smartly find this port
-SERIAL_PORT = '/dev/ttyACM0'
+SERIAL_PORT_0 = '/dev/ttyACM0'
+SERIAL_PORT_1 = '/dev/ttyACM1'
 SERIAL_BAUD = '9600'
 
 if __name__ == '__main__':
@@ -24,5 +24,8 @@ if __name__ == '__main__':
 
     point = TCP4ClientEndpoint(reactor, SERVER_HOST, SERVER_PORT)
     d = point.connect(socketFactory)
-    SerialPort(serialClient, SERIAL_PORT, reactor, baudrate=SERIAL_BAUD)
+    try:
+        SerialPort(serialClient, SERIAL_PORT_0, reactor, baudrate=SERIAL_BAUD)
+    except OSError:
+        SerialPort(serialClient, SERIAL_PORT_1, reactor, baudrate=SERIAL_BAUD)
     reactor.run()
