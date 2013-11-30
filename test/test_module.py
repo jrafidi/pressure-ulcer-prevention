@@ -6,7 +6,7 @@ import time
 import json
 from random import randint
 
-SERVER_HOST = "localhost"
+SERVER_HOST = "275pup.xvm.mit.edu"
 SERVER_PORT = 7123
 DATA_CENTER = randint(-30, 30)
 
@@ -21,6 +21,34 @@ class TestModule(Protocol):
       'serial_number': MODULE_ID
     }
     self.sendMessage(json.dumps(data))
+
+    # send some turns just for test purposes
+    self.sendTurns()
+
+  def sendTurns(self):
+    turn1 = {
+      'deviceId': MODULE_ID,
+      'angle': DATA_CENTER,
+      'sleeping': True,
+      'startTime': time.time() * 1000 - 2*60*60*1000,
+      'endTime': time.time() * 1000 - 60*60*1000,
+      'late': False,
+      'type': 'turn'
+    }
+
+    self.sendMessage(json.dumps(turn1))
+
+    turn2 = {
+      'deviceId': MODULE_ID,
+      'angle': -1 * DATA_CENTER,
+      'sleeping': False,
+      'startTime': time.time() * 1000 - 25*60*1000,
+      'endTime': time.time() * 1000,
+      'late': True,
+      'type': 'turn'
+    }
+
+    self.sendMessage(json.dumps(turn2))
 
   def sendData(self):
     angle = DATA_CENTER + randint(-250, 250) * 0.01

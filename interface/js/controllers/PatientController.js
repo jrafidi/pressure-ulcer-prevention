@@ -57,6 +57,8 @@
           })[0];
           device.set('angle', data.angle);
           return device.set('sleeping', data.sleeping);
+        } else if (data.type === 'turn') {
+          return console.log(data);
         }
       };
 

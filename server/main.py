@@ -11,7 +11,7 @@ from packages.model.Session import *
 
 WEBSOCKET_PORT = 8000
 SOCKET_PORT = 7123
-WEB_PORT = 81
+WEB_PORT = 80
 
 if __name__ == '__main__':
   # Create the session
