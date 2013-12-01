@@ -41,7 +41,7 @@
       };
 
       PatientInfoView.prototype._renderAngle = function() {
-        var angle, dir;
+        var angle, dir, pref;
         angle = Math.round(this.model.get('angle')) * -1;
         if (angle > 0) {
           dir = 'right';
@@ -50,7 +50,12 @@
         }
         this.$('.rotating-box').css('-webkit-transform', "rotate(" + angle + "deg)");
         angle = Math.abs(angle);
-        return this.$('.status-text').text("Current: " + angle + "\xB0 " + dir);
+        if (this.model.get('sleeping')) {
+          pref = 'Laying down at';
+        } else {
+          pref = 'Sitting at';
+        }
+        return this.$('.status-text').text("" + pref + " " + angle + "\xB0 " + dir);
       };
 
       PatientInfoView.prototype._updateModel = function() {

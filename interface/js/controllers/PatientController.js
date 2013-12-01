@@ -21,7 +21,7 @@
       };
 
       PatientController.prototype._parseMessage = function(message) {
-        var data, device, deviceId, ids, info, m, _i, _len, _ref, _results;
+        var data, device, deviceId, ids, info, m, turns, _i, _len, _ref, _results;
         data = JSON.parse(message.data);
         if (data.type === 'state') {
           delete data['type'];
@@ -58,7 +58,12 @@
           device.set('angle', data.angle);
           return device.set('sleeping', data.sleeping);
         } else if (data.type === 'turn') {
-          return console.log(data);
+          device = this.model.where({
+            'deviceId': data.deviceId
+          })[0];
+          turns = device.get('turns');
+          turns.push(data.turn);
+          return device.set('turns', turns);
         }
       };
 

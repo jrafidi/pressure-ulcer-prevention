@@ -37,7 +37,12 @@
             model: patient,
             el: this.$('.patient-content-top')
           });
-          return this.infoView.render();
+          this.infoView.render();
+          this.turnView = new com.pup.PatientTurnView({
+            model: patient,
+            el: this.$('.patient-content-bottom')
+          });
+          return this.turnView.render();
         }
       };
 

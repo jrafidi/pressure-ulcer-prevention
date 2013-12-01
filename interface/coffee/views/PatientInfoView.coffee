@@ -26,7 +26,12 @@ do ->
         dir = 'left'
       @$('.rotating-box').css('-webkit-transform', "rotate(#{angle}deg)")
       angle = Math.abs(angle)
-      @$('.status-text').text("Current: #{angle}\xB0 #{dir}")
+
+      if @model.get('sleeping')
+        pref = 'Laying down at'
+      else
+        pref = 'Sitting at'
+      @$('.status-text').text("#{pref} #{angle}\xB0 #{dir}")
 
     _updateModel: =>
       name = @$('.name-input').val()

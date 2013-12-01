@@ -7,7 +7,9 @@
     <link type="text/css" rel="stylesheet" href="css/compiled.css"/>
 
     <!-- LIBRARY FILES -->
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
     <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.2.1/moment.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.0.0/handlebars.min.js"></script>
@@ -21,6 +23,7 @@
     <script src="js/views/PatientListView.js"></script>
     <script src="js/views/PatientContentView.js"></script>
     <script src="js/views/PatientInfoView.js"></script>
+    <script src="js/views/PatientTurnView.js"></script>
     <script src="js/views/MainView.js"></script>
 
     <script src="js/endpoint.js"></script>
@@ -49,13 +52,32 @@
         <input type="text" value="{{name}}" class="name-input"/><br/>
         <input type="text" value="{{sleepMin}}" class="sleep-input"/><br/>
         <input type="text" value="{{sitMin}}" class="sit-input"/><br/>
-        <div class="save-changes">Save Changes</div>
+        <button class="save-changes">Save Changes</button>
       </div>
     </div>
     <div class="patient-info-right">
       <div class="status-text"/>
       <div class="rotating-box">L&nbsp;&nbsp;Patient&nbsp;&nbsp;R</div>
     </div>
+  </script>
+
+  <script id="patient-turn-template" type="text/x-handlebars-template">
+    <div class="title-bar">
+      <span class="title">Turn History</span>
+      From: <input type="text" id="fromDatepicker">
+      To: <input type="text" id="toDatepicker">
+    </div>
+    <div class="turn-list"/>
+  </script>
+
+  <script id="patient-turnlist-template" type="text/x-handlebars-template">
+    {{#each turns}}
+      <div class="turn-item {{#if late}}late{{/if}}">
+        <div class="col1">{{prefix}}</div>
+        <div class="col2">{{angle}}&deg; {{dir}}</div>
+        <div class="col3">{{fromTime}} - {{toTime}}</div>
+      </div>
+    {{/each}}
   </script>
 
   <body>

@@ -6,7 +6,7 @@ import time
 import json
 from random import randint
 
-SERVER_HOST = "275pup.xvm.mit.edu"
+SERVER_HOST = "localhost"
 SERVER_PORT = 7123
 DATA_CENTER = randint(-30, 30)
 

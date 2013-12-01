@@ -24,3 +24,8 @@ do ->
           model: patient
           el: @$('.patient-content-top')
         @infoView.render()
+
+        @turnView = new com.pup.PatientTurnView
+          model: patient
+          el: @$('.patient-content-bottom')
+        @turnView.render()
