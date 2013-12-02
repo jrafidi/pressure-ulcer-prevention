@@ -10,12 +10,15 @@
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
     <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.3.10/d3.min.js"></script>
+    <script src="js/d3.chart.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.2.1/moment.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.0.0/handlebars.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js"></script>
 
     <script src="js/init.js"></script>
+    <script src="js/barchart.js"></script>
 
     <script src="js/controllers/PatientController.js"></script>
     <script src="js/model/PatientModel.js"></script>
@@ -63,11 +66,13 @@
 
   <script id="patient-turn-template" type="text/x-handlebars-template">
     <div class="title-bar">
-      <span class="title">Turn History</span>
+      <span class="title">Posture History</span>
+      <br/>
       From: <input type="text" id="fromDatepicker">
       To: <input type="text" id="toDatepicker">
     </div>
     <div class="turn-list"/>
+    <div class="turn-chart"> % Time vs Angle Range </div>
   </script>
 
   <script id="patient-turnlist-template" type="text/x-handlebars-template">

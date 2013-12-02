@@ -37,7 +37,7 @@ do ->
         device.set('sleeping', data.sleeping)
       else if data.type == 'turn'
         device = @model.where({'deviceId': data.deviceId})[0]
-        turns = device.get('turns')
+        turns = device.get('turns').slice(0)
         turns.push(data.turn)
         device.set('turns', turns)
 

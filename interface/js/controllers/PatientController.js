@@ -61,7 +61,7 @@
           device = this.model.where({
             'deviceId': data.deviceId
           })[0];
-          turns = device.get('turns');
+          turns = device.get('turns').slice(0);
           turns.push(data.turn);
           return device.set('turns', turns);
         }
