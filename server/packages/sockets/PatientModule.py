@@ -31,7 +31,7 @@ class PatientModuleReceiver(LineReceiver):
 
   def checkAlive(self):
     if time.time() - self.lastUpdate > 20:
-      self.session.removeModute(self.id)
+      self.session.removeModule(self.id)
       self.transport.loseConnection()
 
   def updateState(self, model, attr):
