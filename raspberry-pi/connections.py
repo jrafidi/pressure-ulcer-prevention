@@ -87,11 +87,10 @@ class SerialClient(Protocol):
       self.lastData = line
       return
 
-    if line[0] == '[' and line[len(line) - 1] == ']' and len(line) == 37:
+    if line[0] == '[' and line[len(line) - 1] == ']' and len(line) == 38:
       line = line.replace('[', '').replace(']', '')
       vals = line.strip().split(',')
       self.lastData = ''
-
       angle = accel.calculateAngle(vals)
       sleeping = accel.calculateSleeping(vals)
       self.stateController.updateState(angle, sleeping)
