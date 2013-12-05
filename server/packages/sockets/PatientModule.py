@@ -56,6 +56,8 @@ class PatientModuleReceiver(LineReceiver):
         turns.append(data)
         self.model.set('turns', turns)
         self.model.trigger('newTurn', data)
+      elif data['type'] == 'debug'
+        print data['vals']
 
   def sendMessage(self, message):
     self.transport.write(message + '\n')
