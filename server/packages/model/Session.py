@@ -28,7 +28,7 @@ class Session():
       module.on(event, callback)
 
   def removeModule(self, id):
-    if id in self.moduleModels
+    if id in self.moduleModels:
       del self.moduleModels[id]
     idList = list(self.moduleIdList.get("ids"))
     if id in idList:
