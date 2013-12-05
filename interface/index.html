@@ -33,6 +33,13 @@
 
   </head>
 
+  <script id="top-bar-template" type="text/x-handlebars-template">
+    <div class="top-bar">
+      <div class="title">MIT 2.75 Pressure Ulcer Prevention Demo</div>
+      <div class="account">Demo Account</div>
+    </div>
+  </script>
+
   <script id="patient-item-template" type="text/x-handlebars-template">
     <div class="patient-name"><strong>Name:</strong> {{name}}</div>
     <div class="patient-device-id"><strong>Device:</strong> {{deviceId}}</div>
@@ -72,7 +79,15 @@
       To: <input type="text" id="toDatepicker">
     </div>
     <div class="turn-list"/>
-    <div class="turn-chart"> % Time vs Angle Range </div>
+    <div class="chart-area">
+      <div class="chart-title"> % Time vs Body Angle </div>
+      <div class="turn-chart"/>
+      <div class="chart-bottom">
+        <span class="left-label">Left</span><span class="right-label">Right</span>
+        <br/>
+        Body Angle (&deg;)
+      </div>
+    </div>
   </script>
 
   <script id="patient-turnlist-template" type="text/x-handlebars-template">

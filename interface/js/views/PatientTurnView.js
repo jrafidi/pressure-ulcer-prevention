@@ -6,8 +6,8 @@
   (function() {
     var BUCKET_SIZE, MAX, MIN, _ref;
     BUCKET_SIZE = 10;
-    MIN = -40;
-    MAX = 40;
+    MIN = -60;
+    MAX = 60;
     return com.pup.PatientTurnView = (function(_super) {
       __extends(PatientTurnView, _super);
 
@@ -38,7 +38,7 @@
         });
         this.$('#fromDatepicker').datepicker('setDate', new Date());
         this.$('#toDatepicker').datepicker('setDate', new Date());
-        this.barchart = d3.select('.turn-chart').append('svg').attr('height', 250).attr('width', 400).chart('BarChart');
+        this.barchart = d3.select('.turn-chart').append('svg').attr('height', 220).attr('width', 400).chart('BarChart');
         return this._renderTurns();
       };
 
@@ -100,20 +100,14 @@
       };
 
       PatientTurnView.prototype._processTurnChart = function(turns) {
-        var bucket, data, dir, i, max, total, turn, turnTime, _i, _j, _k, _l, _len, _len1, _len2, _ref1, _ref2;
+        var bucket, data, i, max, min, total, turn, turnTime, _i, _j, _k, _l, _len, _len1, _len2, _ref1, _ref2;
         data = [];
-        for (i = _i = _ref1 = MIN / BUCKET_SIZE, _ref2 = MAX / BUCKET_SIZE - 1; _ref1 <= _ref2 ? _i <= _ref2 : _i >= _ref2; i = _ref1 <= _ref2 ? ++_i : --_i) {
-          if (i + 1 > 0) {
-            dir = 'R';
-          } else {
-            dir = 'L';
-          }
+        for (i = _i = _ref1 = MIN / BUCKET_SIZE, _ref2 = MAX / BUCKET_SIZE; _ref1 <= _ref2 ? _i <= _ref2 : _i >= _ref2; i = _ref1 <= _ref2 ? ++_i : --_i) {
           data.push({
-            name: "" + (Math.abs(i) * BUCKET_SIZE) + "-" + (Math.abs(i + 1) * BUCKET_SIZE) + " " + dir,
+            name: "" + (Math.abs(i) * BUCKET_SIZE) + "\xB0",
             value: 0,
             sum: 0,
-            min: i * BUCKET_SIZE,
-            max: (i + 1) * BUCKET_SIZE
+            center: i * BUCKET_SIZE
           });
         }
         total = 0;
@@ -123,7 +117,9 @@
           total += turnTime;
           for (_k = 0, _len1 = data.length; _k < _len1; _k++) {
             bucket = data[_k];
-            if (turn.rawAngle < bucket.max && turn.rawAngle > bucket.min) {
+            max = bucket.center + BUCKET_SIZE / 2;
+            min = bucket.center - BUCKET_SIZE / 2;
+            if (turn.rawAngle < max && turn.rawAngle >= min) {
               bucket.sum = bucket.sum + turnTime;
             }
           }
@@ -131,7 +127,7 @@
         max = 0;
         for (_l = 0, _len2 = data.length; _l < _len2; _l++) {
           bucket = data[_l];
-          bucket.value = (bucket.sum / total) * 100;
+          bucket.value = bucket.sum / total;
           if (bucket.value > max) {
             max = bucket.value;
           }

@@ -1,5 +1,6 @@
 @list-width: 250px;
 @content-top-height: 200px;
+@top-bar-height: 50px;
 
 html, body {
   width: 100%;
@@ -8,4 +9,23 @@ html, body {
   padding: 0px;
   font-family: 'arial';
   overflow: hidden;
+}
+
+.top-bar {
+  width: 100%;
+  height: @top-bar-height;
+  line-height: 50px;
+  background-color: #333;
+  color: #EEE;
+
+  .title {
+    float: left;
+    font-size: 24px;
+    padding-left: 10px;
+  }
+
+  .account { 
+    float: right;
+    padding-right: 20px;
+  }
 }

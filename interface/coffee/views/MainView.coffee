@@ -5,6 +5,10 @@ do ->
 
     render: =>
       @$el.empty()
+      source = $('#top-bar-template').html()
+      template = Handlebars.compile(source)
+      @$el.append template({})
+
       @listView = new com.pup.PatientListView
         model: @model
         selectionModel: @selectionModel

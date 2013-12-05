@@ -10,7 +10,7 @@ SERVER_HOST = "localhost"
 SERVER_PORT = 7123
 DATA_CENTER = randint(-30, 30)
 
-MODULE_ID = randint(0, 10000)
+MODULE_ID = randint(2, 10000)
 
 class TestModule(Protocol):
   def connectionMade(self):
@@ -26,9 +26,81 @@ class TestModule(Protocol):
     self.sendTurns()
 
   def sendTurns(self):
-    turn1 = {
+    turn = {
       'deviceId': MODULE_ID,
-      'angle': DATA_CENTER,
+      'angle': 24,
+      'sleeping': True,
+      'startTime': time.time() * 1000 - 8*60*60*1000,
+      'endTime': time.time() * 1000 - 7*60*60*1000,
+      'late': False,
+      'type': 'turn'
+    }
+
+    self.sendMessage(json.dumps(turn))
+
+    turn = {
+      'deviceId': MODULE_ID,
+      'angle': -24,
+      'sleeping': False,
+      'startTime': time.time() * 1000 - 7*60*60*1000,
+      'endTime': time.time() * 1000 - 6*60*60*1000,
+      'late': True,
+      'type': 'turn'
+    }
+
+    self.sendMessage(json.dumps(turn))
+
+    turn = {
+      'deviceId': MODULE_ID,
+      'angle': 52,
+      'sleeping': True,
+      'startTime': time.time() * 1000 - 6*60*60*1000,
+      'endTime': time.time() * 1000 - 5*60*60*1000,
+      'late': False,
+      'type': 'turn'
+    }
+
+    self.sendMessage(json.dumps(turn))
+
+    turn = {
+      'deviceId': MODULE_ID,
+      'angle': -32,
+      'sleeping': True,
+      'startTime': time.time() * 1000 - 5*60*60*1000,
+      'endTime': time.time() * 1000 - 4*60*60*1000,
+      'late': False,
+      'type': 'turn'
+    }
+
+    self.sendMessage(json.dumps(turn))
+
+    turn = {
+      'deviceId': MODULE_ID,
+      'angle': 1,
+      'sleeping': False,
+      'startTime': time.time() * 1000 - 4*60*60*1000,
+      'endTime': time.time() * 1000 - 3*60*60*1000,
+      'late': False,
+      'type': 'turn'
+    }
+
+    self.sendMessage(json.dumps(turn))
+
+    turn = {
+      'deviceId': MODULE_ID,
+      'angle': 15,
+      'sleeping': True,
+      'startTime': time.time() * 1000 - 3*60*60*1000,
+      'endTime': time.time() * 1000 - 2*60*60*1000,
+      'late': False,
+      'type': 'turn'
+    }
+
+    self.sendMessage(json.dumps(turn))
+
+    turn = {
+      'deviceId': MODULE_ID,
+      'angle': -20,
       'sleeping': True,
       'startTime': time.time() * 1000 - 2*60*60*1000,
       'endTime': time.time() * 1000 - 60*60*1000,
@@ -36,22 +108,22 @@ class TestModule(Protocol):
       'type': 'turn'
     }
 
-    self.sendMessage(json.dumps(turn1))
+    self.sendMessage(json.dumps(turn))
 
-    turn2 = {
+    turn = {
       'deviceId': MODULE_ID,
-      'angle': -1 * DATA_CENTER,
-      'sleeping': False,
-      'startTime': time.time() * 1000 - 25*60*1000,
+      'angle': 35,
+      'sleeping': True,
+      'startTime': time.time() * 1000 - 60*60*1000,
       'endTime': time.time() * 1000,
-      'late': True,
+      'late': False,
       'type': 'turn'
     }
 
-    self.sendMessage(json.dumps(turn2))
+    self.sendMessage(json.dumps(turn))
 
   def sendData(self):
-    angle = DATA_CENTER + randint(-250, 250) * 0.01
+    angle = DATA_CENTER + randint(-100, 100) * 0.01
     sleeping = True
     data = {
       'type': 'update',

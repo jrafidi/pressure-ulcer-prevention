@@ -2,6 +2,8 @@
 
 @save-changes-color: #3D8AFD;
 
+@chart-left-offset: 52px;
+
 #ui-datepicker-div {
   font-size: 12px;
 }
@@ -10,7 +12,7 @@
   position: absolute;
   left: @list-width;
   right: 0px;
-  top: 0px;
+  top: @top-bar-height;
   bottom: 0px;
 
   .patient-content-top {
@@ -111,28 +113,46 @@
       }
     }
 
-    .turn-chart {
+    .chart-area {
       position: absolute;
-      top: 40px;
+      top: 35px;
       left: 330px;
       text-align: center;
-      .Barchart .label {
-        font-size: 10px;
+
+      .chart-title {
+        margin-left: @chart-left-offset;
       }
-      .Barchart .ylabels .tick line {
-        fill: none;
-        stroke: #222;
-        stroke-width: 1px;
-        shape-rendering: crispEdges;
+
+      .turn-chart {
+        .Barchart .label {
+          font-size: 10px;
+        }
+        .Barchart .ylabels .tick line {
+          fill: none;
+          stroke: #222;
+          stroke-width: 1px;
+          shape-rendering: crispEdges;
+        }
+        .Barchart path.domain {
+          fill: none;
+          stroke: #222;
+          stroke-width: 1px;
+          shape-rendering: crispEdges;
+        }
+        .Barchart .bars rect.bar {
+          fill: #3D8AFD;
+        }
       }
-      .Barchart path.domain {
-        fill: none;
-        stroke: #222;
-        stroke-width: 1px;
-        shape-rendering: crispEdges;
-      }
-      .Barchart .bars rect.bar {
-        fill: #3D8AFD;
+
+      .chart-bottom {
+        margin-top: -8px;
+        margin-left: @chart-left-offset;
+        span {
+          font-size: 14px;
+        }
+        .left-label {
+          margin-right: 128px;
+        }
       }
     }
 

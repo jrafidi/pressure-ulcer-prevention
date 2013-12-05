@@ -1,7 +1,7 @@
 do ->
   BUCKET_SIZE = 10
-  MIN = -40
-  MAX = 40
+  MIN = -60
+  MAX = 60
   class com.pup.PatientTurnView extends Backbone.View
 
     initialize: (options) =>
@@ -25,7 +25,7 @@ do ->
 
       @barchart = d3.select('.turn-chart')
         .append('svg')
-        .attr('height', 250)
+        .attr('height', 220)
         .attr('width', 400)
         .chart('BarChart')
 
@@ -81,29 +81,26 @@ do ->
 
     _processTurnChart: (turns) =>
       data = []
-      for i in [MIN/BUCKET_SIZE..(MAX/BUCKET_SIZE - 1)]
-        if i+1 > 0
-          dir = 'R'
-        else
-          dir = 'L'
+      for i in [MIN/BUCKET_SIZE..MAX/BUCKET_SIZE]
         data.push
-          name: "#{Math.abs(i)*BUCKET_SIZE}-#{Math.abs(i+1)*BUCKET_SIZE} #{dir}"
+          name: "#{Math.abs(i)*BUCKET_SIZE}\xB0"
           value: 0
           sum: 0
-          min: i * BUCKET_SIZE
-          max: (i+1) * BUCKET_SIZE
+          center: i * BUCKET_SIZE
 
       total = 0
       for turn in turns
         turnTime = turn.endTime - turn.startTime
         total += turnTime
         for bucket in data
-          if turn.rawAngle < bucket.max and turn.rawAngle > bucket.min
+          max = bucket.center + BUCKET_SIZE / 2
+          min = bucket.center - BUCKET_SIZE / 2
+          if turn.rawAngle < max and turn.rawAngle >= min
             bucket.sum = bucket.sum + turnTime
 
       max = 0
       for bucket in data
-        bucket.value = (bucket.sum / total) * 100
+        bucket.value = (bucket.sum / total)
         if bucket.value > max
           max = bucket.value
 

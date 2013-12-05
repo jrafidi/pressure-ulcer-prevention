@@ -97,10 +97,13 @@ d3.chart('BarChart', {
         });
         chart.y.domain([0, chart.datamax]);
 
+        formatter = d3.format(".0%");
+
         // draw yaxis
         var yAxis = d3.svg.axis()
           .scale(chart.y)
           .orient('left')
+          .tickFormat(formatter)
           .ticks(6);
 
         chart.areas.ylabels

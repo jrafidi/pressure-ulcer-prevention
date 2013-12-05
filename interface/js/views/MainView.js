@@ -20,7 +20,11 @@
       };
 
       MainView.prototype.render = function() {
+        var source, template;
         this.$el.empty();
+        source = $('#top-bar-template').html();
+        template = Handlebars.compile(source);
+        this.$el.append(template({}));
         this.listView = new com.pup.PatientListView({
           model: this.model,
           selectionModel: this.selectionModel
