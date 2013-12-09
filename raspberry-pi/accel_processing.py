@@ -1,10 +1,13 @@
 import serial
 import math
 
-ACCEL_ZERO = 330
-ALPHA = 0.2
+ACCEL_ZERO = 590
+Z_ZERO = 590
+Z_OFFSET = -12
+ALPHA = 1.0
 
-SLEEP_AXIS = 1
+SLEEP_AXIS_SIT = 1
+SLEEP_AXIS_LAY = 2
 
 def frange(x, y, jump):
     while x < y:
@@ -103,10 +106,10 @@ def calculateAngle(vals):
     global zero_vector_2
 
     x1 = int(vals[0]) - ACCEL_ZERO
-    z1 = int(vals[2]) - ACCEL_ZERO
+    z1 = int(vals[2]) - Z_ZERO
 
     x2 = int(vals[3]) - ACCEL_ZERO
-    z2 = int(vals[5]) - ACCEL_ZERO
+    z2 = int(vals[5]) - Z_ZERO - Z_OFFSET
 
     vector1 = [x1, z1]#normalizeVector([x1, z1])
     vector2 = [x2, z2]#normalizeVector([x2, z2])
@@ -136,8 +139,9 @@ def calculateAngle(vals):
     return avg
 
 def calculateSleeping(vals):
-    val = int(vals[6 + SLEEP_AXIS]) - ACCEL_ZERO
-    if val < -40:
+    val_sit = abs(int(vals[6 + SLEEP_AXIS_SIT]) - ACCEL_ZERO)
+    val_lay = abs(int(vals[6 + SLEEP_AXIS_LAY]) - ACCEL_ZERO)
+    if val_sit > val_lay:
         return False 
     else:
         return True

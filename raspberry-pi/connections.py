@@ -56,6 +56,13 @@ class ModuleFactory(ReconnectingClientFactory):
     }
     self.broadcastMessage(json.dumps(data))
 
+  def debug(self, vals):
+    data = {
+      'type': 'debug',
+      'vals': vals
+    }
+    self.broadcastMessage(json.dumps(data))
+
   def buildProtocol(self, addr):
     self.resetDelay()
     module = ModuleServerSocket(self.stateController)
@@ -87,13 +94,14 @@ class SerialClient(Protocol):
       self.lastData = line
       return
 
-    if line[0] == '[' and line[len(line) - 1] == ']' and len(line) == 38:
+    if line[0] == '[' and line[len(line) - 1] == ']':
       line = line.replace('[', '').replace(']', '')
       vals = line.strip().split(',')
       self.lastData = ''
       angle = accel.calculateAngle(vals)
       sleeping = accel.calculateSleeping(vals)
       self.stateController.updateState(angle, sleeping)
+      self.stateController.debug(vals)
     else:
       bits = line.strip().split('[')
       self.lastData = '[' + bits[len(bits) - 1]
