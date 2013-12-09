@@ -84,38 +84,50 @@ def calculateSleeping(vals):
     else:
         return True
 
-# if __name__ == '__main__':
-#     print rotateVector([-1,0], math.pi/4.0)
-#     print "Testing flat accels from -90 to 90..."
-#     for theta in range(-90, 90, 1):
-#         rad = theta * (math.pi / 180.0)
-#         inp = [-1 * math.sin(rad), 0, -1 * math.cos(rad), -1 * math.sin(rad), 0, -1 * math.cos(rad)]
-#         result = calculateAngle(inp)
-#         if abs(theta - result) > 1:
-#             print "TEST FAILED ON THETA = " + str(theta)
-#             print "RETURNED: " + str(result)
-#     print "Testing flat accels complete."
+if __name__ == '__main__':
+    print rotateVector([-1,0], math.pi/4.0)
+    print "Testing flat accels from -90 to 90..."
+    for theta in range(-90, 90, 1):
+        rad = theta * (math.pi / 180.0)
+        inp = [-1 * math.sin(rad), 0, -1 * math.cos(rad), -1 * math.sin(rad), 0, -1 * math.cos(rad)]
+        result = calculateAngle(inp)
+        if abs(theta - result) > 1:
+            print "TEST FAILED ON THETA = " + str(theta)
+            print "RETURNED: " + str(result)
+    print "Testing flat accels complete."
 
-#     print "Testing 45deg accels from -90 to 90..."
-#     for theta in range(-90, 90, 1):
-#         rad = theta * (math.pi / 180.0)
-#         [rot1x, rot1y] = rotateVector([-1 * math.sin(rad), -1 * math.cos(rad)], math.pi/4.0)
-#         [rot2x, rot2y] = rotateVector([-1 * math.sin(rad), -1 * math.cos(rad)], -1 * math.pi/4.0)
-#         inp = [rot1x, 0, rot1y, rot2x, 0, rot2y]
-#         result = calculateAngle(inp)
-#         if abs(theta - result) > 1:
-#             print "TEST FAILED ON THETA = " + str(theta)
-#             print "RETURNED: " + str(result)
-#     print "Testing 45deg accels complete."
+    print "Testing 90deg accels from -90 to 90..."
+    for theta in range(-90, 90, 1):
+        rad = theta * (math.pi / 180.0)
+        [rot1x, rot1y] = rotateVector([-1 * math.sin(rad), -1 * math.cos(rad)], math.pi/2.0)
+        [rot2x, rot2y] = rotateVector([-1 * math.sin(rad), -1 * math.cos(rad)], -1 * math.pi/2.0)
+        inp = [rot1x, 0, rot1y, rot2x, 0, rot2y]
+        result = calculateAngle(inp)
+        if abs(theta - result) > 1:
+            print "TEST FAILED ON THETA = " + str(theta)
+            print "RETURNED: " + str(result)
+    print "Testing 90deg accels complete."
 
-#     print "Testing 30deg accels from -90 to 90..."
-#     for theta in range(-90, 90, 1):
-#         rad = theta * (math.pi / 180.0)
-#         [rot1x, rot1y] = rotateVector([-1 * math.sin(rad), -1 * math.cos(rad)], math.pi/6.0)
-#         [rot2x, rot2y] = rotateVector([-1 * math.sin(rad), -1 * math.cos(rad)], -1 * math.pi/6.0)
-#         inp = [rot1x, 0, rot1y, rot2x, 0, rot2y]
-#         result = calculateAngle(inp)
-#         if abs(theta - result) > 1:
-#             print "TEST FAILED ON THETA = " + str(theta)
-#             print "RETURNED: " + str(result)
-#     print "Testing 30deg accels complete."
+    print "Testing 45deg accels from -90 to 90..."
+    for theta in range(-90, 90, 1):
+        rad = theta * (math.pi / 180.0)
+        [rot1x, rot1y] = rotateVector([-1 * math.sin(rad), -1 * math.cos(rad)], math.pi/4.0)
+        [rot2x, rot2y] = rotateVector([-1 * math.sin(rad), -1 * math.cos(rad)], -1 * math.pi/4.0)
+        inp = [rot1x, 0, rot1y, rot2x, 0, rot2y]
+        result = calculateAngle(inp)
+        if abs(theta - result) > 1:
+            print "TEST FAILED ON THETA = " + str(theta)
+            print "RETURNED: " + str(result)
+    print "Testing 45deg accels complete."
+
+    print "Testing 30deg accels from -90 to 90..."
+    for theta in range(-90, 90, 1):
+        rad = theta * (math.pi / 180.0)
+        [rot1x, rot1y] = rotateVector([-1 * math.sin(rad), -1 * math.cos(rad)], math.pi/6.0)
+        [rot2x, rot2y] = rotateVector([-1 * math.sin(rad), -1 * math.cos(rad)], -1 * math.pi/6.0)
+        inp = [rot1x, 0, rot1y, rot2x, 0, rot2y]
+        result = calculateAngle(inp)
+        if abs(theta - result) > 1:
+            print "TEST FAILED ON THETA = " + str(theta)
+            print "RETURNED: " + str(result)
+    print "Testing 30deg accels complete."
