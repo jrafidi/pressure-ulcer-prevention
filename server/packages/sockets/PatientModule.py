@@ -1,13 +1,16 @@
+from twisted.internet import task
 from twisted.internet.protocol import Factory
 from twisted.protocols.basic import LineReceiver
 
 from ..model.ModuleModel import ModuleModel
 
 import json
+import time
 
 class PatientModuleReceiver(LineReceiver):
   def __init__(self, session):
     self.session = session
+    self.lastUpdate = time.time()
 
   def registerModule(self, id):
     self.id = id
@@ -23,6 +26,14 @@ class PatientModuleReceiver(LineReceiver):
     # Tell module to start sending data
     self.sendMessage("OK")
 
+    self.lc = task.LoopingCall(self.checkAlive)
+    self.lc.start(10)
+
+  def checkAlive(self):
+    if time.time() - self.lastUpdate > 20:
+      self.session.removeModule(self.id)
+      self.transport.loseConnection()
+
   def updateState(self, model, attr):
     self.sendMessage("SETTING: " + attr + ":" + str(model.get(attr)))
 
@@ -31,6 +42,7 @@ class PatientModuleReceiver(LineReceiver):
     self.session.removeModule(self.id)
 
   def dataReceived(self, line):
+    self.lastUpdate = time.time()
     lines = line.strip().split('\n')
     for l in lines:
       data = json.loads(l)
@@ -44,6 +56,8 @@ class PatientModuleReceiver(LineReceiver):
         turns.append(data)
         self.model.set('turns', turns)
         self.model.trigger('newTurn', data)
+      elif data['type'] == 'debug'
+        print data['vals']
 
   def sendMessage(self, message):
     self.transport.write(message + '\n')
