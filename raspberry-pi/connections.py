@@ -100,8 +100,8 @@ class SerialClient(Protocol):
       self.lastData = ''
       angle = accel.calculateAngle(vals)
       sleeping = accel.calculateSleeping(vals)
+      vectors = accel.getVectors(vals)
       self.stateController.updateState(angle, sleeping)
-      self.stateController.debug(vals)
     else:
       bits = line.strip().split('[')
       self.lastData = '[' + bits[len(bits) - 1]

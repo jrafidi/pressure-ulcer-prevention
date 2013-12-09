@@ -1,11 +1,11 @@
 import math
 
-ACCEL_ZERO = 0
-Z_ZERO = 0
-Z_OFFSET = 0
+ACCEL_ZERO = 611
+Z_ZERO = 630
+Z_OFFSET = -12
 ALPHA = 1.0
 
-SLEEP_AXIS_SIT = 1
+SLEEP_AXIS_SIT = 0
 SLEEP_AXIS_LAY = 2
 
 def frange(x, y, jump):
@@ -55,20 +55,27 @@ def normalizeVector(vector):
 # Running average we are measuring
 avg = None
 
+def getVectors(vals):
+    x1 = int(vals[0]) - ACCEL_ZERO
+    z1 = int(vals[2]) - Z_ZERO
+    x2 = int(vals[3]) - ACCEL_ZERO
+    z2 = int(vals[5]) - Z_ZERO - Z_OFFSET
+    return [x1,z1,-1 * x2,z2]
+
 def calculateAngle(vals):
     global avg
 
-    x1 = float(vals[0]) - ACCEL_ZERO
-    z1 = float(vals[2]) - Z_ZERO
+    x1 = int(vals[0]) - ACCEL_ZERO
+    z1 = int(vals[2]) - Z_ZERO
 
-    x2 = float(vals[3]) - ACCEL_ZERO
-    z2 = float(vals[5]) - Z_ZERO - Z_OFFSET
+    x2 = -1 * (int(vals[3]) - ACCEL_ZERO)
+    z2 = int(vals[5]) - Z_ZERO - Z_OFFSET
 
     vector1 = normalizeVector([x1, z1])
     vector2 = normalizeVector([x2, z2])
     
     theta = findAngle(vector1, vector2)
-    theta = theta * (180/math.pi)
+    theta = -1 * theta * (180/math.pi)
 
     if avg == None:
         avg = theta
