@@ -102,6 +102,9 @@ class ModuleStateController():
       'late': self.late
     }
 
+  def debug(self, vals):
+    self.socket.debug(vals)
+
   def fireAlarm(self):
     GPIO.output(10, False)
 
