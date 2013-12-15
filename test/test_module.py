@@ -28,7 +28,7 @@ class TestModule(Protocol):
   def sendTurns(self):
     turn = {
       'deviceId': MODULE_ID,
-      'angle': 24,
+      'angle': randint(-60, 60),
       'sleeping': True,
       'startTime': time.time() * 1000 - 8*60*60*1000,
       'endTime': time.time() * 1000 - 7*60*60*1000,
@@ -40,7 +40,7 @@ class TestModule(Protocol):
 
     turn = {
       'deviceId': MODULE_ID,
-      'angle': -24,
+      'angle': randint(-60, 60),
       'sleeping': False,
       'startTime': time.time() * 1000 - 7*60*60*1000,
       'endTime': time.time() * 1000 - 6*60*60*1000,
@@ -52,7 +52,7 @@ class TestModule(Protocol):
 
     turn = {
       'deviceId': MODULE_ID,
-      'angle': 52,
+      'angle': randint(-60,60),
       'sleeping': True,
       'startTime': time.time() * 1000 - 6*60*60*1000,
       'endTime': time.time() * 1000 - 5*60*60*1000,
@@ -64,7 +64,7 @@ class TestModule(Protocol):
 
     turn = {
       'deviceId': MODULE_ID,
-      'angle': -32,
+      'angle': randint(-60,60),
       'sleeping': True,
       'startTime': time.time() * 1000 - 5*60*60*1000,
       'endTime': time.time() * 1000 - 4*60*60*1000,
@@ -76,7 +76,7 @@ class TestModule(Protocol):
 
     turn = {
       'deviceId': MODULE_ID,
-      'angle': 1,
+      'angle': randint(-60,60),
       'sleeping': False,
       'startTime': time.time() * 1000 - 4*60*60*1000,
       'endTime': time.time() * 1000 - 3*60*60*1000,
@@ -88,7 +88,7 @@ class TestModule(Protocol):
 
     turn = {
       'deviceId': MODULE_ID,
-      'angle': 15,
+      'angle': randint(-60,60),
       'sleeping': True,
       'startTime': time.time() * 1000 - 3*60*60*1000,
       'endTime': time.time() * 1000 - 2*60*60*1000,
@@ -100,7 +100,7 @@ class TestModule(Protocol):
 
     turn = {
       'deviceId': MODULE_ID,
-      'angle': -20,
+      'angle': randint(-60,60),
       'sleeping': True,
       'startTime': time.time() * 1000 - 2*60*60*1000,
       'endTime': time.time() * 1000 - 60*60*1000,
@@ -112,7 +112,7 @@ class TestModule(Protocol):
 
     turn = {
       'deviceId': MODULE_ID,
-      'angle': 35,
+      'angle': randint(-60,60),
       'sleeping': True,
       'startTime': time.time() * 1000 - 60*60*1000,
       'endTime': time.time() * 1000,

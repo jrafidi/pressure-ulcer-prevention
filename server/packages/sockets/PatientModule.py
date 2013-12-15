@@ -30,8 +30,7 @@ class PatientModuleReceiver(LineReceiver):
     self.lc.start(10)
 
   def checkAlive(self):
-    if time.time() - self.lastUpdate > 20:
-      self.session.removeModule(self.id)
+    if time.time() - self.lastUpdate > 200:
       self.transport.loseConnection()
 
   def updateState(self, model, attr):
@@ -40,6 +39,7 @@ class PatientModuleReceiver(LineReceiver):
   def connectionLost(self, reason):
     print reason
     self.session.removeModule(self.id)
+    self.lc.stop()
 
   def dataReceived(self, line):
     self.lastUpdate = time.time()
@@ -56,7 +56,7 @@ class PatientModuleReceiver(LineReceiver):
         turns.append(data)
         self.model.set('turns', turns)
         self.model.trigger('newTurn', data)
-      elif data['type'] == 'debug'
+      elif data['type'] == 'debug':
         print data['vals']
 
   def sendMessage(self, message):
@@ -68,4 +68,5 @@ class PatientModuleSocketFactory(Factory):
     self.session = session
 
   def buildProtocol(self, addr):
+    print addr
     return PatientModuleReceiver(self.session)
