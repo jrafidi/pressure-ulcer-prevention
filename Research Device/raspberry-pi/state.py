@@ -15,7 +15,7 @@ MIN_FOR_TURN = 2
 SEC_PER_READING = 60
 
 # Buffer of past readings to check to ensure stability reached
-BUFFER_SIZE = MIN_FOR_TURN * 60 / READ_RATE
+BUFFER_SIZE = MIN_FOR_TURN * 60 / SEC_PER_READING
 
 DEF_SLEEP_INTERVAL = 2 * 60 * 60 * 1000   # ms
 DEF_SIT_INTERVAL = 15 * 60 * 1000         # ms
