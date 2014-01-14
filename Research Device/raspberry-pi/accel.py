@@ -3,7 +3,6 @@ import math
 ACCEL_ZERO = 611
 Z_ZERO = 630
 Z_OFFSET = -12
-ALPHA = 1.0
 
 SLEEP_AXIS_SIT = 0
 SLEEP_AXIS_LAY = 2
@@ -52,16 +51,6 @@ def normalizeVector(vector):
         norm.append(val / mag)
     return norm
 
-# Running average we are measuring
-avg = None
-
-def getVectors(vals):
-    x1 = int(vals[0]) - ACCEL_ZERO
-    z1 = int(vals[2]) - Z_ZERO
-    x2 = int(vals[3]) - ACCEL_ZERO
-    z2 = int(vals[5]) - Z_ZERO - Z_OFFSET
-    return [x1,z1,-1 * x2,z2]
-
 def calculateAngle(vals):
     global avg
 
@@ -76,12 +65,7 @@ def calculateAngle(vals):
     
     theta = findAngle(vector1, vector2)
     theta = -1 * theta * (180/math.pi)
-
-    if avg == None:
-        avg = theta
-    else:
-        avg = (ALPHA) * theta + (1.0 - ALPHA) * avg
-    return avg
+    return theta
 
 def calculateSleeping(vals):
     val_sit = abs(int(vals[6 + SLEEP_AXIS_SIT]) - ACCEL_ZERO)
