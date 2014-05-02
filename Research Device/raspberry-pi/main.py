@@ -1,7 +1,7 @@
 from state import *
+from bluepy.sensortag import *
 
-import datetime
-import os
+import datetime, time, os
 
 USB_PREFIX = '/media/'
 
@@ -17,9 +17,18 @@ if __name__ == '__main__':
     data = file(filename, 'w')
     data.close()
 
+    # Create the TI sensor tags
+    tag1 = SensorTag("BC:6A:29:AC:7F:1A")
+    tag2 = SensorTag("BC:6A:29:AE:CD:BB")
+
+    sensors = [tag1.accelerometer, tag2.accelerometer]
+    [ s.enable() for s in sensors ]
+
     # Create state obj
     while True:
         # Read accel data
+        print "ACCL1", sensors[0].read()
+        print "ACCL2", sensors[1].read()
         # Calculate posture state
         # Pass to state controller that will handle the rest
         print "TO DO"
