@@ -1,11 +1,14 @@
 from state import *
 from bluepy.sensortag import *
 
+import bluepy.btle as btle
 import datetime, time, os
 
 USB_PREFIX = '/media/'
 
 if __name__ == '__main__':
+    btle.Debugging = False
+
     # Find the USB stick and create data file for this boot
     try:
         usb = os.walk(USB_PREFIX).next()[1][0]
@@ -31,4 +34,4 @@ if __name__ == '__main__':
         print "ACCL2", sensors[1].read()
         # Calculate posture state
         # Pass to state controller that will handle the rest
-        print "TO DO"
+        time.sleep(5)
