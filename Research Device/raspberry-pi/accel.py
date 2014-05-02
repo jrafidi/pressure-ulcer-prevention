@@ -1,8 +1,6 @@
 import math
 
 ACCEL_ZERO = 0
-Z_ZERO = 0
-Z_OFFSET = 0
 
 SLEEP_AXIS_SIT = 0
 SLEEP_AXIS_LAY = 2
@@ -51,14 +49,12 @@ def normalizeVector(vector):
         norm.append(val / mag)
     return norm
 
-def calculateAngle(vals):
-    global avg
+def calculateAngle(leftAccel, rightAccel):
+    x1 = leftAccel[0]
+    z1 = leftAccel[2]
 
-    x1 = int(vals[0]) - ACCEL_ZERO
-    z1 = int(vals[2]) - Z_ZERO
-
-    x2 = -1 * (int(vals[3]) - ACCEL_ZERO)
-    z2 = int(vals[5]) - Z_ZERO - Z_OFFSET
+    x2 = -1 * rightAccel[0]
+    z2 = rightAccel[2]
 
     vector1 = normalizeVector([x1, z1])
     vector2 = normalizeVector([x2, z2])
