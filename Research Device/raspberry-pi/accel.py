@@ -51,15 +51,15 @@ def normalizeVector(vector):
 
 def calculateAngle(leftAccel, rightAccel):
     x1 = leftAccel[0]
-    z1 = leftAccel[2]
+    z1 = -1*leftAccel[2]
 
-    x2 = -1 * rightAccel[0]
-    z2 = rightAccel[2]
+    x2 = rightAccel[0]
+    z2 = -1*rightAccel[2]
 
     vector1 = normalizeVector([x1, z1])
     vector2 = normalizeVector([x2, z2])
     
-    theta = findAngle(vector1, vector2)
+    theta = findAngle(vector2, vector1)
     theta = -1 * theta * (180/math.pi)
     return theta
 
