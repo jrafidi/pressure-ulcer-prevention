@@ -103,7 +103,7 @@ class ModuleStateController():
         self.unfireAlarm()
 
   def logLastTurn(self):
-    turnData = json.dumps(self.lastTurn)
+    turnData = json.dumps(self.lastTurn) + '\n'
     with open(self.localFilename, "a") as localFile:
       localFile.write(turnData)
     if self.usbFilename != None:
