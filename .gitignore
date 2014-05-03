@@ -36,6 +36,6 @@ nosetests.xml
 .pydevproject
 *.pyc
 
-*/local_data/*
+*/local-data/*
 
 .DS_Store

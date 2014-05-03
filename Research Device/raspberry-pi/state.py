@@ -39,12 +39,12 @@ class ModuleStateController():
 
   def initializeLogFiles(self):
     bootTime = str(datetime.datetime.today()).split('.')[0].replace(' ', '_').replace(':', '-')
-    self.localFilename = self.localPrefix + 'data_' + boot_time + '.txt'
+    self.localFilename = self.localPrefix + 'data_' + bootTime + '.txt'
     data = file(self.localFilename, 'w')
     data.close()
 
     if self.usbPrefix != None:
-      self.usbFilename = self.usbPrefix + 'data_' + boot_time + '.txt'
+      self.usbFilename = self.usbPrefix + 'data_' + bootTime + '.txt'
       data = file(self.usbFilename, 'w')
       data.close()
     else:
