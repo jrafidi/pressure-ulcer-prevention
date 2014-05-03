@@ -1,12 +1,12 @@
+import RPi.GPIO as GPIO
+GPIO.setmode(GPIO.BCM)
+
 from state import *
 from accel import *
 from bluepy.sensortag import *
 
 import bluepy.btle as btle
 import time, os
-
-import RPi.GPIO as GPIO
-GPIO.setmode(GPIO.BCM)
 
 USB_PREFIX = '/media/'
 LOCAL_PREFIX = 'local-data/'
