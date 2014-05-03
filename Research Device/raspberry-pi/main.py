@@ -9,7 +9,7 @@ import RPi.GPIO as GPIO
 GPIO.setmode(GPIO.BCM)
 
 USB_PREFIX = '/media/'
-LOCAL_PREFIX = 'local_data/'
+LOCAL_PREFIX = 'local-data/'
 
 # TODO: Read these addresses from a config file on the USB stick
 LEFT_ADDRESS = 'BC:6A:29:AC:7F:1A'
