@@ -58,7 +58,7 @@ if __name__ == '__main__':
 
             startConnection = False
             connected = True
-
+            okayStatus()
 
         # Read accel data if connected
         if connected:
