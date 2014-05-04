@@ -1,5 +1,6 @@
 import RPi.GPIO as GPIO
 GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False) 
 
 RELAY_PIN = 18
 ERROR_PIN = 17

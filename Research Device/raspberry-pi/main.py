@@ -45,7 +45,7 @@ if __name__ == '__main__':
             # Reset all LEDs
             clearAll()
             # Reset the bluetooth junk in case something has gone wrong
-            os.system('bash hci-reset.sh')
+            os.system('bash hcireset.sh')
 
             # Connect the TI sensor tags
             leftTag = SensorTag(LEFT_ADDRESS)
@@ -79,7 +79,7 @@ if __name__ == '__main__':
 
                 # Wait to take the next reading
                 time.sleep(SEC_PER_READING - DEFAULT_SPIN_TIME)
-            except BTLEException:
+            except btle.BTLEException:
                 clearAll()
                 errorStatus()
                 triggerAlarm()
