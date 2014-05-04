@@ -4,7 +4,7 @@ GPIO.setwarnings(False)
 
 RELAY_PIN = 18
 ERROR_PIN = 17
-ALARM_PIN = 21
+ALARM_PIN = 24
 OKAY_PIN = 22
 BUTTON_PIN = 23
 
