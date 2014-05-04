@@ -1,14 +1,9 @@
 import subprocess
-import sys
 
-process = subprocess.Popen(
-    ["hcitool", "lescan"], stdout=subprocess.PIPE, stderr=subprocess.PIPE
-)
-
-while True:
-    out = process.stdout.read(1)
-    if out == '' and process.poll() != None:
-        break
-    if out != '':
-        sys.stdout.write(out)
-        sys.stdout.flush()
+p = subprocess.Popen(["hcitool", "lescan"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+while(True):
+  retcode = p.poll() #returns None while subprocess is running
+  line = p.stdout.readline()
+  yield line
+  if(retcode is not None):
+    break
