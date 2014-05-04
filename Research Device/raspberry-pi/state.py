@@ -1,7 +1,5 @@
+from indicators import *
 import time, datetime, json
-import RPi.GPIO as GPIO
-
-GPIO.setup(17, GPIO.OUT, initial=GPIO.HIGH)
 
 # Degree deviation that counts as a turn (in either direction)
 ANGLE_DEVIATION = 10
@@ -92,7 +90,7 @@ class ModuleStateController():
           # If we already flagged as late, then no point in firing again
           if not self.late:
             self.late = True
-            self.fireAlarm()
+            triggerAlarm()
 
       # If we are not stable anymore
       else:
@@ -100,7 +98,7 @@ class ModuleStateController():
         self.saveLastTurn()
         self.stabilized = False
         self.late = False
-        self.unfireAlarm()
+        untriggerAlarm()
 
   def logLastTurn(self):
     turnData = json.dumps(self.lastTurn) + '\n'
@@ -118,9 +116,3 @@ class ModuleStateController():
       'endTime': time.time(),
       'late': self.late
     }
-
-  def fireAlarm(self):
-    GPIO.output(17, GPIO.LOW)
-
-  def unfireAlarm(self):
-    GPIO.output(17, GPIO.HIGH)

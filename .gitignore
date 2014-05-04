@@ -36,6 +36,8 @@ nosetests.xml
 .pydevproject
 *.pyc
 
-*/local-data/*.txt
-
 .DS_Store
+
+bluepy-helper
+*.pyc
+*.o
