@@ -1,8 +1,14 @@
-from subprocess import Popen, PIPE
+import subprocess
+import sys
 
-proc = Popen(["hcitool", "lescan"], stdout=PIPE, bufsize=1) # start process
-for line in iter(proc.stdout.readline, b''): # read output line-by-line
-    print line,
-# reached EOF, nothing more to read
-proc.communicate() # close `proc.stdout`, wait for child process to terminate
-print "Exit status", proc.returncode
+process = subprocess.Popen(
+    ["hcitool", "lescan"], stdout=subprocess.PIPE, stderr=subprocess.PIPE
+)
+
+while True:
+    out = process.stdout.read(1)
+    if out == '' and process.poll() != None:
+        break
+    if out != '':
+        sys.stdout.write(out)
+        sys.stdout.flush()
