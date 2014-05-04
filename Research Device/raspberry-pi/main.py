@@ -9,7 +9,7 @@ import bluepy.btle as btle
 import time, os
 
 USB_PREFIX = '/media/'
-LOCAL_PREFIX = 'local-data/'
+LOCAL_PREFIX = '/home/pi/local-data/'
 
 # TODO: Read these addresses from a config file on the USB stick
 LEFT_ADDRESS = 'BC:6A:29:AC:7F:1A'
@@ -29,15 +29,18 @@ if __name__ == '__main__':
     # Create the state controller
     state = ModuleStateController(LOCAL_PREFIX, storage_prefix)
 
+    # Reset the bluetooth junk in case something has gone wrong
+    os.system('bash hci-reset.sh')
+
     # Connect the TI sensor tags
     leftTag = SensorTag(LEFT_ADDRESS)
     rightTag = SensorTag(RIGHT_ADDRESS)
-
+    
+    # Turn on the tag accelerometers
     tags = [leftTag, rightTag]
     for tag in tags:
         tag.accelerometer.enable()
 
-    # Create state obj
     while True:
         # Read accel data
         leftAccl = leftTag.accelerometer.read()
