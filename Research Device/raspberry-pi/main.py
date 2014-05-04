@@ -31,6 +31,7 @@ if __name__ == '__main__':
 
     startConnection = False
     connected = False
+    blinkToggle = False
 
     # Begin operating loop
     while True:
@@ -86,5 +87,8 @@ if __name__ == '__main__':
 
                 connected = False
                 startConnection = False
+
+        if not connected and not startConnection:
+            print "Waiting for push button"
 
         time.sleep(DEFAULT_SPIN_TIME)
