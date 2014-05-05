@@ -93,6 +93,6 @@ if __name__ == '__main__':
                 setOkay()
             else:
                 clearOkay()
-            blinkToggle = !blinkToggle
+            blinkToggle = not blinkToggle
 
         time.sleep(DEFAULT_SPIN_TIME)
