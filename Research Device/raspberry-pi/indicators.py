@@ -30,6 +30,12 @@ def okayStatus():
   GPIO.output(ERROR_PIN, GPIO.LOW)
   GPIO.output(OKAY_PIN, GPIO.HIGH)
 
+def setOkay():
+  GPIO.output(OKAY_PIN, GPIO.HIGH)
+
+def clearOkay():
+  GPIO.output(OKAY_PIN, GPIO.LOW)
+
 def errorStatus():
   GPIO.output(ERROR_PIN, GPIO.HIGH)
   GPIO.output(OKAY_PIN, GPIO.LOW)

@@ -1,17 +1,16 @@
 from state import *
 from accel import *
 from indicators import *
+from search import *
 from bluepy.sensortag import *
 
 import bluepy.btle as btle
 import time, os
 
+NUM_TAGS = 2
+
 USB_PREFIX = '/media/'
 LOCAL_PREFIX = '/home/pi/local-data/'
-
-# TODO: Read these addresses from a config file on the USB stick
-LEFT_ADDRESS = 'BC:6A:29:AC:7F:1A'
-RIGHT_ADDRESS = 'BC:6A:29:AE:CD:BB'
 
 DEFAULT_SPIN_TIME = 1 #sec
 
@@ -45,12 +44,13 @@ if __name__ == '__main__':
         if startConnection:
             # Reset all LEDs
             clearAll()
-            # Reset the bluetooth junk in case something has gone wrong
-            os.system('bash hcireset.sh')
+
+            # Find the sensortags
+            [leftAddress, rightAddress] = findSensorTags()
 
             # Connect the TI sensor tags
-            leftTag = SensorTag(LEFT_ADDRESS)
-            rightTag = SensorTag(RIGHT_ADDRESS)
+            leftTag = SensorTag(leftAddress)
+            rightTag = SensorTag(rightAddress)
             
             # Turn on the tag accelerometers
             tags = [leftTag, rightTag]
@@ -89,6 +89,10 @@ if __name__ == '__main__':
                 startConnection = False
 
         if not connected and not startConnection:
-            print "Waiting for push button"
+            if blinkToggle:
+                setOkay()
+            else:
+                clearOkay()
+            blinkToggle = !blinkToggle
 
         time.sleep(DEFAULT_SPIN_TIME)
