@@ -42,9 +42,15 @@ class ModuleStateController():
     data.close()
 
     if self.usbPrefix != None:
-      self.usbFilename = self.usbPrefix + 'data_' + bootTime + '.txt'
-      data = file(self.usbFilename, 'w')
-      data.close()
+      trying = True
+      while trying:
+        try:
+          self.usbFilename = self.usbPrefix + 'data_' + bootTime + '.txt'
+          data = file(self.usbFilename, 'w')
+          data.close()
+          trying = False
+        except:
+          pass
     else:
       self.usbFilename = None
 
