@@ -7,7 +7,7 @@ from bluepy.sensortag import *
 import bluepy.btle as btle
 import time, os
 
-NUM_TAGS = 2
+NUM_TAGS = 3
 
 USB_PREFIX = '/media/'
 LOCAL_PREFIX = '/home/pi/local-data/'
@@ -46,14 +46,15 @@ if __name__ == '__main__':
             clearAll()
 
             # Find the sensortags
-            [leftAddress, rightAddress] = findSensorTags()
+            [leftAddress, rightAddress, centerAddress] = findSensorTags()
 
             # Connect the TI sensor tags
             leftTag = SensorTag(leftAddress)
             rightTag = SensorTag(rightAddress)
+            centerTag = SensorTag(centerAddress)
             
             # Turn on the tag accelerometers
-            tags = [leftTag, rightTag]
+            tags = [leftTag, rightTag, centerTag]
             for tag in tags:
                 tag.accelerometer.enable()
 
@@ -66,12 +67,14 @@ if __name__ == '__main__':
             try:
                 leftAccl = leftTag.accelerometer.read()
                 rightAccl = rightTag.accelerometer.read()
+                centerAccl = centerTag.accelerometer.read()
                 print 'LEFT_ACCL', leftAccl
                 print 'RIGHT_ACCL', rightAccl
+                print 'CENTER_ACCL', centerAccl
 
                 # Calculate posture state (TODO)
                 angle = calculateAngle(leftAccl, rightAccl)
-                sleeping = False
+                sleeping = calculatSleeping(centerAccl)
                 print 'ANGLE', calculateAngle(leftAccl, rightAccl)
                 print 'SLEEPING', sleeping
 
