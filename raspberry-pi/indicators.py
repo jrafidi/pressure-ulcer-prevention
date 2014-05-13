@@ -16,7 +16,7 @@ GPIO.setup(ERROR_PIN, GPIO.OUT, initial=GPIO.LOW)
 GPIO.setup(ALARM_PIN, GPIO.OUT, initial=GPIO.LOW)
 GPIO.setup(OKAY_PIN, GPIO.OUT, initial=GPIO.LOW)
 
-GPIO.setup(BUTTON_PIN, GPIO.IN)
+GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 def triggerAlarm():
   GPIO.output(ALARM_PIN, GPIO.HIGH)
