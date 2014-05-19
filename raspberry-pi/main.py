@@ -74,8 +74,8 @@ if __name__ == '__main__':
 
                 # Calculate posture state (TODO)
                 angle = calculateAngle(leftAccl, rightAccl)
-                sleeping = calculatSleeping(centerAccl)
-                print 'ANGLE', calculateAngle(leftAccl, rightAccl)
+                sleeping = calculateSleeping(centerAccl)
+                print 'ANGLE', angle
                 print 'SLEEPING', sleeping
 
                 # Pass to state controller that will handle the rest
