@@ -22,20 +22,26 @@ if __name__ == '__main__':
     try:
         usb = os.walk(USB_PREFIX).next()[1][0]
         storage_prefix = USB_PREFIX + usb + '/pup-data/'
+        print "USB stick found."
     except IndexError:
+        print "No USB stick found."
         storage_prefix = None
 
     # Create the state controller
     state = ModuleStateController(LOCAL_PREFIX, storage_prefix)
 
+    # Connection loop variables
     connected = False
     calibrated = False
     blinkToggle = False
 
     # Begin operating loop
+    print "Waiting for button press to find tags."
     while True:
-        # Check if the user has pushed the sync button
-        if checkButton() and not connected and not startConnection and not calibrated:
+        # Check if the user has pushed the sync button.
+        # If so and we have not connected yet, do the connection
+        if checkButton() and not connected and not calibrated:
+            print "Connecting tags..."
             clearAll()
             connected = False
 
@@ -54,33 +60,41 @@ if __name__ == '__main__':
 
             connected = True
             okayStatus()
+            print "Tags connected."
+            print "Waiting for button press to determine tag locations."
+            print "Please apply tags to patient."
 
+        # Now that we've found the tags, figure out which is on what part
+        # Wait for user input to ensure tags are on patient
         if checkButton() and connected and not calibrated:
+            print "Locating tags..."
             clearAll()
             [leftTag, centerTag, rightTag] = orderTags(tag1, tag2, tag3)
             calibrated = True
+            setOkay()
+            print "Tags located."
+            print "Beginning monitoring loop:"
 
-        # Read accel data if connected
+        # Read accel data if connected and locations identified
         if calibrated:
             try:
                 leftAccl = leftTag.accelerometer.read()
                 rightAccl = rightTag.accelerometer.read()
                 centerAccl = centerTag.accelerometer.read()
-                print 'LEFT_ACCL', normalizeVector(leftAccl)
-                print 'RIGHT_ACCL', normalizeVector(rightAccl)
-                print 'CENTER_ACCL', normalizeVector(centerAccl)
 
-                # Calculate posture state (TODO)
+                # Calculate posture state
                 angle = calculateAngle(leftAccl, rightAccl)
                 sleeping = calculateSleeping(centerAccl)
-                print 'ANGLE', angle
-                print 'SLEEPING', sleeping
+                print 'Body Angle', angle
+                print 'Sleeping?', sleeping
 
                 # Pass to state controller that will handle the rest
                 state.updateState(angle, sleeping)
 
                 # Wait to take the next reading
                 time.sleep(SEC_PER_READING - DEFAULT_SPIN_TIME)
+
+            # In case the sensor tags disconnect/fail
             except btle.BTLEException:
                 clearAll()
                 errorStatus()
@@ -89,6 +103,7 @@ if __name__ == '__main__':
                 connected = False
                 calibrated = False
 
+        # Flash this light to let user know they need to push the button
         if not calibrated:
             if blinkToggle:
                 setOkay()
@@ -96,4 +111,5 @@ if __name__ == '__main__':
                 clearOkay()
             blinkToggle = not blinkToggle
 
+        # Default wait between each loop (checking for button or reading)
         time.sleep(DEFAULT_SPIN_TIME)
