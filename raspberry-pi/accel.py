@@ -62,8 +62,8 @@ def calculateAngle(leftAccel, rightAccel):
     return theta
 
 def calculateSleeping(centerAccel):
-    val_sit = abs(int(centerAccel[SLEEP_AXIS_SIT]))
-    val_lay = abs(int(centerAccel[SLEEP_AXIS_LAY]))
+    val_sit = abs(centerAccel[SLEEP_AXIS_SIT])
+    val_lay = abs(centerAccel[SLEEP_AXIS_LAY])
     if val_sit > val_lay:
         return False 
     else:
