@@ -28,42 +28,40 @@ if __name__ == '__main__':
     # Create the state controller
     state = ModuleStateController(LOCAL_PREFIX, storage_prefix)
 
-    startConnection = False
     connected = False
+    calibrated = False
     blinkToggle = False
 
     # Begin operating loop
     while True:
         # Check if the user has pushed the sync button
-        if checkButton():
-            startConnection = True
+        if checkButton() and not connected and not startConnection and not calibrated:
+            clearAll()
             connected = False
-            clearAll()
-
-        # Attempt to connect to the sensor tags
-        if startConnection:
-            # Reset all LEDs
-            clearAll()
 
             # Find the sensortags
-            [leftAddress, rightAddress, centerAddress] = findSensorTags()
+            [addr1, addr2, addr3] = findSensorTags()
 
             # Connect the TI sensor tags
-            leftTag = SensorTag(leftAddress)
-            rightTag = SensorTag(rightAddress)
-            centerTag = SensorTag(centerAddress)
+            tag1 = SensorTag(addr1)
+            tag2 = SensorTag(addr2)
+            tag3 = SensorTag(addr3)
             
             # Turn on the tag accelerometers
-            tags = [leftTag, rightTag, centerTag]
+            tags = [tag1, tag2, tag3]
             for tag in tags:
                 tag.accelerometer.enable()
 
-            startConnection = False
             connected = True
             okayStatus()
 
+        if checkButton() and connected and not calibrated:
+            clearAll()
+            [leftTag, centerTag, rightTag] = orderTags(tag1, tag2, tag3)
+            calibrated = True
+
         # Read accel data if connected
-        if connected:
+        if calibrated:
             try:
                 leftAccl = leftTag.accelerometer.read()
                 rightAccl = rightTag.accelerometer.read()
@@ -89,9 +87,9 @@ if __name__ == '__main__':
                 triggerAlarm()
 
                 connected = False
-                startConnection = False
+                calibrated = False
 
-        if not connected and not startConnection:
+        if not calibrated:
             if blinkToggle:
                 setOkay()
             else:

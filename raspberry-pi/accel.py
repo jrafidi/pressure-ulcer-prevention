@@ -68,3 +68,6 @@ def calculateSleeping(centerAccel):
         return False 
     else:
         return True
+
+def orderTags(tag1, tag2, tag3):
+    return sorted([tag1, tag2, tag3], key=lambda tag: tag.accelerometer.read()[0])
