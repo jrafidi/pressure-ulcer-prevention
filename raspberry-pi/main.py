@@ -66,9 +66,9 @@ if __name__ == '__main__':
                 leftAccl = leftTag.accelerometer.read()
                 rightAccl = rightTag.accelerometer.read()
                 centerAccl = centerTag.accelerometer.read()
-                print 'LEFT_ACCL', leftAccl
-                print 'RIGHT_ACCL', rightAccl
-                print 'CENTER_ACCL', centerAccl
+                print 'LEFT_ACCL', normalizeVector(leftAccl)
+                print 'RIGHT_ACCL', normalizeVector(rightAccl)
+                print 'CENTER_ACCL', normalizeVector(centerAccl)
 
                 # Calculate posture state (TODO)
                 angle = calculateAngle(leftAccl, rightAccl)
